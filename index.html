@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Busca Projetos CMSP</title>
+    <!-- Tailwind CSS (via CDN para simplicidade em arquivo único) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Estilos customizados para o Slider (Range) para melhorar UX no mobile */
+        input[type=range] {
+            -webkit-appearance: none; 
+            background: transparent; 
+        }
+        
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 28px;
+            width: 28px;
+            border-radius: 50%;
+            background: #2563EB;
+            cursor: pointer;
+            margin-top: -12px; 
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #CBD5E1;
+            border-radius: 2px;
+        }
+
+        /* Classes utilitárias para evitar zoom no duplo clique em botões */
+        .touch-action-manipulation {
+            touch-action: manipulation;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans h-screen flex flex-col items-center justify-center p-4">
+
+    <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-6 space-y-6">
+        
+        <!-- Cabeçalho -->
+        <div class="text-center">
+            <h1 class="text-2xl font-bold text-gray-700 tracking-tight">Legislativo Sampa</h1>
+            <p class="text-xs text-gray-400 mt-1">Lançador rápido de projetos</p>
+        </div>
+
+        <!-- Seção 1: Tipo de Projeto -->
+        <div>
+            <label class="block text-sm font-medium text-gray-500 mb-2">Tipo do Projeto</label>
+            <div class="grid grid-cols-4 gap-2">
+                <!-- Botões gerados via JS ou hardcoded, farei hardcoded para clareza -->
+                <button onclick="selectType('PL')" id="btn-PL" class="type-btn active-type py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">PL</button>
+                <button onclick="selectType('PDL')" id="btn-PDL" class="type-btn py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">PDL</button>
+                <button onclick="selectType('PR')" id="btn-PR" class="type-btn py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">PR</button>
+                <button onclick="selectType('PLO')" id="btn-PLO" class="type-btn py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">PLO</button>
+            </div>
+        </div>
+
+        <!-- Seção 2: Número -->
+        <div>
+            <label class="block text-sm font-medium text-gray-500 mb-2">Número</label>
+            <input type="tel" id="projectNumber" pattern="[0-9]*" inputmode="numeric" placeholder="Digite o número..." 
+                class="w-full text-center text-3xl font-bold py-4 px-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all placeholder-gray-300 text-gray-800">
+        </div>
+
+        <!-- Seção 3: Ano (Slider) -->
+        <div>
+            <div class="flex justify-between items-end mb-2">
+                <label class="text-sm font-medium text-gray-500">Ano</label>
+                <span id="yearDisplay" class="text-2xl font-bold text-blue-600">2026</span>
+            </div>
+            <div class="relative w-full h-10 flex items-center">
+                <input type="range" id="yearSlider" min="1991" max="2026" value="2026" class="w-full">
+            </div>
+            <div class="flex justify-between text-xs text-gray-400 mt-1">
+                <span>1991</span>
+                <span>2026</span>
+            </div>
+        </div>
+
+        <!-- Mensagem de Erro -->
+        <div id="errorMsg" class="hidden text-center text-red-500 text-sm font-medium bg-red-50 p-2 rounded-lg">
+            Por favor, digite o número do projeto.
+        </div>
+
+        <!-- Seção 4: Botões de Ação -->
+        <div class="grid grid-cols-1 gap-3 pt-2">
+            <button onclick="openUrl('splegis')" class="w-full bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 touch-action-manipulation">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Abrir no SPLegis
+            </button>
+            
+            <button onclick="openUrl('portal')" class="w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 touch-action-manipulation">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                </svg>
+                Abrir no Portal
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // --- Estado Inicial ---
+        let state = {
+            type: 'PL',
+            number: '',
+            year: 2026
+        };
+
+        // Códigos para o SPLegis
+        const spLegisCodes = {
+            'PL': 1,
+            'PDL': 2,
+            'PR': 3,
+            'PLO': 4
+        };
+
+        // --- Elementos do DOM ---
+        const slider = document.getElementById('yearSlider');
+        const yearDisplay = document.getElementById('yearDisplay');
+        const numberInput = document.getElementById('projectNumber');
+        const errorMsg = document.getElementById('errorMsg');
+
+        // --- Inicialização ---
+        function init() {
+            updateTypeUI();
+            
+            // Listener do Slider
+            slider.addEventListener('input', (e) => {
+                state.year = e.target.value;
+                yearDisplay.innerText = state.year;
+            });
+
+            // Listener do Input de Número
+            numberInput.addEventListener('input', (e) => {
+                state.number = e.target.value;
+                if(state.number) hideError();
+            });
+
+            // Opcional: Permitir Enter para abrir o padrão (SPLegis)
+            numberInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    openUrl('splegis');
+                    numberInput.blur(); // Fecha teclado mobile
+                }
+            });
+        }
+
+        // --- Lógica de Seleção de Tipo ---
+        function selectType(type) {
+            state.type = type;
+            updateTypeUI();
+        }
+
+        function updateTypeUI() {
+            const types = ['PL', 'PDL', 'PR', 'PLO'];
+            
+            types.forEach(t => {
+                const btn = document.getElementById(`btn-${t}`);
+                if (t === state.type) {
+                    // Estilo Ativo
+                    btn.className = "type-btn active-type w-full py-3 rounded-lg font-bold text-sm border border-blue-600 bg-blue-600 text-white shadow-md transform scale-105 transition-all duration-200 touch-action-manipulation";
+                } else {
+                    // Estilo Inativo
+                    btn.className = "type-btn w-full py-3 rounded-lg font-bold text-sm border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 touch-action-manipulation";
+                }
+            });
+        }
+
+        // --- Lógica de Abertura de URL ---
+        function openUrl(destination) {
+            if (!state.number) {
+                showError();
+                numberInput.focus();
+                return;
+            }
+
+            let url = '';
+            
+            if (destination === 'splegis') {
+                // Montagem URL SPLegis
+                // Ex: https://splegisconsulta.saopaulo.sp.leg.br/Pesquisa/DetailsDetalhado?COD_MTRA_LEGL=1&COD_PCSS_CMSP=1234&ANO_PCSS_CMSP=2025
+                const code = spLegisCodes[state.type];
+                url = `https://splegisconsulta.saopaulo.sp.leg.br/Pesquisa/DetailsDetalhado?COD_MTRA_LEGL=${code}&COD_PCSS_CMSP=${state.number}&ANO_PCSS_CMSP=${state.year}`;
+            } else {
+                // Montagem URL Portal
+                // Ex: ...&exprSearch=P=PL12342025
+                // Nota: O prefixo no portal parece ser igual ao tipo (PL, PDL, PR, PLO) concatenado sem espaços
+                const searchExpr = `${state.type}${state.number}${state.year}`;
+                url = `https://www.saopaulo.sp.leg.br/cgi-bin/wxis.bin/iah/scripts/?IsisScript=iah.xis&lang=pt&format=detalhado.pft&base=proje&form=A&nextAction=search&indexSearch=^nTw^lTodos%20os%20campos&exprSearch=P=${searchExpr}`;
+            }
+
+            window.open(url, '_blank');
+        }
+
+        // --- Feedback de Erro ---
+        function showError() {
+            errorMsg.classList.remove('hidden');
+            numberInput.classList.add('border-red-500', 'ring-2', 'ring-red-200');
+            numberInput.classList.remove('border-gray-200');
+        }
+
+        function hideError() {
+            errorMsg.classList.add('hidden');
+            numberInput.classList.remove('border-red-500', 'ring-2', 'ring-red-200');
+            numberInput.classList.add('border-gray-200');
+        }
+
+        // Rodar ao carregar
+        init();
+
+    </script>
+</body>
+</html>
