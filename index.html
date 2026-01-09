@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Busca Projetos CMSP</title>
-    <!-- Tailwind CSS (via CDN para simplicidade em arquivo único) -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Estilos customizados para o Slider (Range) para melhorar UX no mobile */
+        /* Estilos customizados para o Slider (Range) */
         input[type=range] {
             -webkit-appearance: none; 
             background: transparent; 
@@ -15,21 +15,22 @@
         
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            height: 28px;
-            width: 28px;
+            height: 24px;
+            width: 24px;
             border-radius: 50%;
             background: #2563EB;
             cursor: pointer;
-            margin-top: -12px; 
-            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            margin-top: -10px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            border: 2px solid white;
         }
 
         input[type=range]::-webkit-slider-runnable-track {
             width: 100%;
-            height: 4px;
+            height: 6px;
             cursor: pointer;
-            background: #CBD5E1;
-            border-radius: 2px;
+            background: #E2E8F0;
+            border-radius: 3px;
         }
 
         /* Classes utilitárias para evitar zoom no duplo clique em botões */
@@ -38,7 +39,7 @@
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans h-screen flex flex-col items-center justify-center p-4">
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col items-center justify-center p-4">
 
     <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-6 space-y-6">
         
@@ -52,7 +53,6 @@
         <div>
             <label class="block text-sm font-medium text-gray-500 mb-2">Tipo do Projeto</label>
             <div class="grid grid-cols-4 gap-2">
-                <!-- Botões gerados via JS ou hardcoded, farei hardcoded para clareza -->
                 <button onclick="selectType('PL')" id="btn-PL" class="type-btn active-type py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">PL</button>
                 <button onclick="selectType('PDL')" id="btn-PDL" class="type-btn py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">PDL</button>
                 <button onclick="selectType('PR')" id="btn-PR" class="type-btn py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">PR</button>
@@ -60,11 +60,38 @@
             </div>
         </div>
 
-        <!-- Seção 2: Número -->
-        <div>
-            <label class="block text-sm font-medium text-gray-500 mb-2">Número</label>
-            <input type="tel" id="projectNumber" pattern="[0-9]*" inputmode="numeric" placeholder="Digite o número..." 
-                class="w-full text-center text-3xl font-bold py-4 px-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all placeholder-gray-300 text-gray-800">
+        <!-- Seção 2: Número (Input + Sliders Duplos) -->
+        <div class="bg-blue-50/50 p-4 rounded-xl border border-blue-100">
+            <label class="block text-xs uppercase font-bold text-gray-400 mb-2 tracking-wider">Número do Projeto</label>
+            
+            <!-- Display/Input Principal -->
+            <div class="relative flex items-center mb-4">
+                <input type="tel" id="projectNumber" pattern="[0-9]*" inputmode="numeric" placeholder="0" 
+                    class="w-full text-center text-4xl font-black py-2 bg-white border border-gray-200 rounded-lg focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all text-blue-700 shadow-sm">
+            </div>
+
+            <!-- Sistema de Sliders -->
+            <div class="space-y-4">
+                <!-- Slider Macro (0-2000, passo 100) -->
+                <div>
+                    <div class="flex justify-between text-xs text-gray-400 mb-1 px-1">
+                        <span>0</span>
+                        <span class="font-bold text-blue-500">Centenas</span>
+                        <span>2000</span>
+                    </div>
+                    <input type="range" id="sliderMacro" min="0" max="20" value="0" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                </div>
+
+                <!-- Slider Micro (0-99, passo 1) -->
+                <div>
+                    <div class="flex justify-between text-xs text-gray-400 mb-1 px-1">
+                        <span>0</span>
+                        <span class="font-bold text-blue-500">Unidades</span>
+                        <span>99</span>
+                    </div>
+                    <input type="range" id="sliderMicro" min="0" max="99" value="0" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                </div>
+            </div>
         </div>
 
         <!-- Seção 3: Ano (Slider) -->
@@ -84,7 +111,7 @@
 
         <!-- Mensagem de Erro -->
         <div id="errorMsg" class="hidden text-center text-red-500 text-sm font-medium bg-red-50 p-2 rounded-lg">
-            Por favor, digite o número do projeto.
+            Por favor, selecione ou digite o número do projeto.
         </div>
 
         <!-- Seção 4: Botões de Ação -->
@@ -115,42 +142,91 @@
         };
 
         // Códigos para o SPLegis
-        const spLegisCodes = {
-            'PL': 1,
-            'PDL': 2,
-            'PR': 3,
-            'PLO': 4
-        };
+        const spLegisCodes = { 'PL': 1, 'PDL': 2, 'PR': 3, 'PLO': 4 };
 
         // --- Elementos do DOM ---
-        const slider = document.getElementById('yearSlider');
+        const yearSlider = document.getElementById('yearSlider');
         const yearDisplay = document.getElementById('yearDisplay');
         const numberInput = document.getElementById('projectNumber');
+        const sliderMacro = document.getElementById('sliderMacro');
+        const sliderMicro = document.getElementById('sliderMicro');
         const errorMsg = document.getElementById('errorMsg');
 
         // --- Inicialização ---
         function init() {
             updateTypeUI();
             
-            // Listener do Slider
-            slider.addEventListener('input', (e) => {
+            // 1. Listener do Slider de Ano
+            yearSlider.addEventListener('input', (e) => {
                 state.year = e.target.value;
                 yearDisplay.innerText = state.year;
             });
 
-            // Listener do Input de Número
+            // 2. Listeners dos Sliders de Número (Combinados)
+            const updateFromSliders = () => {
+                const hundreds = parseInt(sliderMacro.value) * 100;
+                const units = parseInt(sliderMicro.value);
+                let total = hundreds + units;
+                
+                // Trava em 2000
+                if (total > 2000) total = 2000;
+
+                // Atualiza estado e visual
+                if (total > 0) {
+                    state.number = total.toString();
+                    numberInput.value = total;
+                    hideError();
+                } else {
+                    state.number = '';
+                    numberInput.value = '';
+                }
+            };
+
+            sliderMacro.addEventListener('input', updateFromSliders);
+            sliderMicro.addEventListener('input', updateFromSliders);
+
+            // 3. Listener do Input Manual (Sincroniza de volta para os sliders)
             numberInput.addEventListener('input', (e) => {
-                state.number = e.target.value;
-                if(state.number) hideError();
+                let val = e.target.value.replace(/\D/g, '');
+                
+                // Limite hard de 2000 se digitar manualmente
+                if (parseInt(val) > 2000) val = "2000";
+                
+                e.target.value = val;
+                state.number = val;
+
+                if (val) {
+                    syncSlidersFromNumber(val);
+                    hideError();
+                }
             });
 
-            // Opcional: Permitir Enter para abrir o padrão (SPLegis)
+            numberInput.addEventListener('blur', () => {
+                if (!state.number) {
+                    sliderMacro.value = 0;
+                    sliderMicro.value = 0;
+                }
+            });
+
+            // Enter para confirmar
             numberInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
                     openUrl('splegis');
-                    numberInput.blur(); // Fecha teclado mobile
+                    numberInput.blur();
                 }
             });
+        }
+
+        // --- Sincronização: Número -> Sliders ---
+        function syncSlidersFromNumber(numStr) {
+            const num = parseInt(numStr);
+            if (isNaN(num)) return;
+
+            const hundreds = Math.floor(num / 100); // Ex: 1234 -> 12
+            const units = num % 100;                // Ex: 1234 -> 34
+
+            sliderMacro.value = hundreds;
+            sliderMicro.value = units;
         }
 
         // --- Lógica de Seleção de Tipo ---
@@ -161,14 +237,11 @@
 
         function updateTypeUI() {
             const types = ['PL', 'PDL', 'PR', 'PLO'];
-            
             types.forEach(t => {
                 const btn = document.getElementById(`btn-${t}`);
                 if (t === state.type) {
-                    // Estilo Ativo
                     btn.className = "type-btn active-type w-full py-3 rounded-lg font-bold text-sm border border-blue-600 bg-blue-600 text-white shadow-md transform scale-105 transition-all duration-200 touch-action-manipulation";
                 } else {
-                    // Estilo Inativo
                     btn.className = "type-btn w-full py-3 rounded-lg font-bold text-sm border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 touch-action-manipulation";
                 }
             });
@@ -176,7 +249,7 @@
 
         // --- Lógica de Abertura de URL ---
         function openUrl(destination) {
-            if (!state.number) {
+            if (!state.number || state.number === "0") {
                 showError();
                 numberInput.focus();
                 return;
@@ -185,14 +258,9 @@
             let url = '';
             
             if (destination === 'splegis') {
-                // Montagem URL SPLegis
-                // Ex: https://splegisconsulta.saopaulo.sp.leg.br/Pesquisa/DetailsDetalhado?COD_MTRA_LEGL=1&COD_PCSS_CMSP=1234&ANO_PCSS_CMSP=2025
                 const code = spLegisCodes[state.type];
                 url = `https://splegisconsulta.saopaulo.sp.leg.br/Pesquisa/DetailsDetalhado?COD_MTRA_LEGL=${code}&COD_PCSS_CMSP=${state.number}&ANO_PCSS_CMSP=${state.year}`;
             } else {
-                // Montagem URL Portal
-                // Ex: ...&exprSearch=P=PL12342025
-                // Nota: O prefixo no portal parece ser igual ao tipo (PL, PDL, PR, PLO) concatenado sem espaços
                 const searchExpr = `${state.type}${state.number}${state.year}`;
                 url = `https://www.saopaulo.sp.leg.br/cgi-bin/wxis.bin/iah/scripts/?IsisScript=iah.xis&lang=pt&format=detalhado.pft&base=proje&form=A&nextAction=search&indexSearch=^nTw^lTodos%20os%20campos&exprSearch=P=${searchExpr}`;
             }
@@ -200,7 +268,6 @@
             window.open(url, '_blank');
         }
 
-        // --- Feedback de Erro ---
         function showError() {
             errorMsg.classList.remove('hidden');
             numberInput.classList.add('border-red-500', 'ring-2', 'ring-red-200');
@@ -213,9 +280,7 @@
             numberInput.classList.add('border-gray-200');
         }
 
-        // Rodar ao carregar
         init();
-
     </script>
 </body>
 </html>
