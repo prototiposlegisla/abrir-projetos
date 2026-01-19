@@ -471,7 +471,8 @@
             if (state.mode === 'projetos') {
                 if (destination === 'splegis') {
                     const code = spLegisCodes[state.type];
-                    url = `https://splegisconsulta.saopaulo.sp.leg.br/Pesquisa/DetailsDetalhado?COD_MTRA_LEGL=${code}&COD_PCSS_CMSP=${state.number}&ANO_PCSS_CMSP=${state.year}`;
+                    // Link atualizado para o novo formato do SPLegis
+                    url = `https://splegisconsulta.saopaulo.sp.leg.br/Pesquisa/DetailsMateriaTramitacaoLegislativa?tipo=${code}&numero=${state.number}&ano=${state.year}`;
                 } else {
                     const searchExpr = `${state.type}${state.number}${state.year}`;
                     url = `https://www.saopaulo.sp.leg.br/cgi-bin/wxis.bin/iah/scripts/?IsisScript=iah.xis&lang=pt&format=detalhado.pft&base=proje&form=A&nextAction=search&indexSearch=^nTw^lTodos%20os%20campos&exprSearch=P=${searchExpr}`;
