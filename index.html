@@ -74,10 +74,11 @@
                 <button onclick="selectType('PLO')" id="btn-PLO" class="type-btn py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">PLO</button>
             </div>
             <!-- Container Botões Normas -->
-            <div id="types-normas" class="hidden grid grid-cols-3 gap-2">
+            <div id="types-normas" class="hidden grid grid-cols-4 gap-2">
                 <button onclick="selectType('Lei')" id="btn-Lei" class="type-btn py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">Lei</button>
                 <button onclick="selectType('Decreto')" id="btn-Decreto" class="type-btn py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">Decreto</button>
                 <button onclick="selectType('DecLeg')" id="btn-DecLeg" class="type-btn py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">Dec. Leg.</button>
+                <button onclick="selectType('Ato')" id="btn-Ato" class="type-btn py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">Ato</button>
             </div>
         </div>
 
@@ -212,7 +213,8 @@
         };
 
         const spLegisCodes = { 'PL': 1, 'PDL': 2, 'PR': 3, 'PLO': 4 };
-        const plpCodes = { 'Lei': 'Lei', 'Decreto': 'DEC', 'DecLeg': 'DECLEG' };
+        // Adicionado 'Ato' ao mapeamento
+        const plpCodes = { 'Lei': 'Lei', 'Decreto': 'DEC', 'DecLeg': 'DECLEG', 'Ato': 'Ato' };
 
         // Elementos DOM
         const yearSlider = document.getElementById('yearSlider');
@@ -439,7 +441,7 @@
             // Atualizar UI de botões
             const group = state.mode === 'projetos' 
                 ? ['PL', 'PDL', 'PR', 'PLO'] 
-                : ['Lei', 'Decreto', 'DecLeg'];
+                : ['Lei', 'Decreto', 'DecLeg', 'Ato']; // Adicionado Ato ao grupo
 
             group.forEach(t => {
                 const btn = document.getElementById(`btn-${t}`);
