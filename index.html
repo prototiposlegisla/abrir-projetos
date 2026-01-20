@@ -11,18 +11,22 @@
         input[type=range] {
             -webkit-appearance: none; 
             background: transparent; 
+            /* MELHORIA 1: Bloqueia rolagem da página ao arrastar o slider */
+            touch-action: none;
         }
         
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            height: 24px;
-            width: 24px;
+            /* MELHORIA 2: Bolinha maior para mais estabilidade (Era 24px) */
+            height: 32px;
+            width: 32px;
             border-radius: 50%;
             background: #2563EB;
             cursor: pointer;
-            margin-top: -10px; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            border: 2px solid white;
+            /* Ajuste de centralização vertical para o novo tamanho */
+            margin-top: -13px; 
+            box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+            border: 3px solid white;
         }
 
         input[type=range]::-webkit-slider-runnable-track {
