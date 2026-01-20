@@ -12,22 +12,18 @@
             -webkit-appearance: none; 
             background: transparent; 
             touch-action: pan-y;
-            /* TRUQUE CSS: O slider em si não recebe cliques (permite rolar a tela) */
             pointer-events: none;
         }
         
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            /* TRUQUE CSS: Apenas a bolinha recebe cliques/arraste */
             pointer-events: auto;
-            
-            /* Aumentado para 36px para facilitar o toque preciso */
             height: 36px;
             width: 36px;
             border-radius: 50%;
-            background: #2563EB;
+            background: #4B5563; /* Cinza Neutro */
             cursor: grab;
-            margin-top: -15px; /* Ajuste para centralizar (36px) */
+            margin-top: -15px; 
             box-shadow: 0 3px 6px rgba(0,0,0,0.3);
             border: 3px solid white;
         }
@@ -40,13 +36,12 @@
             border-radius: 3px;
         }
 
-        /* Suporte para Firefox */
         input[type=range]::-moz-range-thumb {
             pointer-events: auto;
             height: 36px;
             width: 36px;
             border-radius: 50%;
-            background: #2563EB;
+            background: #4B5563;
             cursor: grab;
             box-shadow: 0 3px 6px rgba(0,0,0,0.3);
             border: 3px solid white;
@@ -56,27 +51,24 @@
             touch-action: manipulation;
         }
 
-        .mode-btn-active {
-            background-color: #2563EB; /* blue-600 */
-            color: white;
-            border-color: #2563EB;
-        }
-        .mode-btn-inactive {
-            background-color: white;
-            color: #4B5563; /* gray-600 */
-            border-color: #E5E7EB; /* gray-200 */
+        /* Classes de estado para os botões das abas (Gerenciadas via JS agora) */
+        .tab-base {
+            transition: all 0.2s;
         }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col items-center justify-start p-4">
 
     <!-- Seletor de Modo (Abas) -->
-    <div class="w-full max-w-md grid grid-cols-2 gap-0 mb-2 mt-2">
-        <button onclick="setMode('projetos')" id="tab-projetos" class="py-3 font-bold text-sm rounded-l-2xl border border-r-0 transition-all touch-action-manipulation mode-btn-active">
+    <div class="w-full max-w-md grid grid-cols-3 gap-0 mb-2 mt-2">
+        <button onclick="setMode('projetos')" id="tab-projetos" class="tab-base py-3 font-bold text-sm rounded-l-2xl border border-r-0 touch-action-manipulation">
             Projetos
         </button>
-        <button onclick="setMode('normas')" id="tab-normas" class="py-3 font-bold text-sm rounded-r-2xl border border-l-0 transition-all touch-action-manipulation mode-btn-inactive">
+        <button onclick="setMode('normas')" id="tab-normas" class="tab-base py-3 font-bold text-sm border-l-0 border-r-0 touch-action-manipulation">
             Normas
+        </button>
+        <button onclick="setMode('outros')" id="tab-outros" class="tab-base py-3 font-bold text-sm rounded-r-2xl border border-l-0 touch-action-manipulation">
+            Outros
         </button>
     </div>
 
@@ -85,6 +77,7 @@
         <!-- Seção 1: Tipo -->
         <div>
             <label class="block text-sm font-medium text-gray-500 mb-2">Tipo</label>
+            
             <!-- Container Botões Projetos -->
             <div id="types-projetos" class="grid grid-cols-4 gap-2">
                 <button onclick="selectType('PL')" id="btn-PL" class="type-btn active-type py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">PL</button>
@@ -92,6 +85,7 @@
                 <button onclick="selectType('PR')" id="btn-PR" class="type-btn py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">PR</button>
                 <button onclick="selectType('PLO')" id="btn-PLO" class="type-btn py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">PLO</button>
             </div>
+            
             <!-- Container Botões Normas -->
             <div id="types-normas" class="hidden grid grid-cols-4 gap-2">
                 <button onclick="selectType('Lei')" id="btn-Lei" class="type-btn py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">Lei</button>
@@ -99,76 +93,88 @@
                 <button onclick="selectType('DecLeg')" id="btn-DecLeg" class="type-btn py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">Dec. Leg.</button>
                 <button onclick="selectType('Ato')" id="btn-Ato" class="type-btn py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">Ato</button>
             </div>
+
+            <!-- Container Botões Outros -->
+            <div id="types-outros" class="hidden space-y-2">
+                <!-- Linha 1 -->
+                <div class="grid grid-cols-4 gap-2">
+                    <button onclick="selectType('RPP')" id="btn-RPP" class="type-btn py-3 rounded-lg font-bold text-xs border transition-all duration-200 shadow-sm touch-action-manipulation">RPP</button>
+                    <button onclick="selectType('RPS')" id="btn-RPS" class="type-btn py-3 rounded-lg font-bold text-xs border transition-all duration-200 shadow-sm touch-action-manipulation">RPS</button>
+                    <button onclick="selectType('RDP')" id="btn-RDP" class="type-btn py-3 rounded-lg font-bold text-xs border transition-all duration-200 shadow-sm touch-action-manipulation">RDP</button>
+                    <button onclick="selectType('RDS')" id="btn-RDS" class="type-btn py-3 rounded-lg font-bold text-xs border transition-all duration-200 shadow-sm touch-action-manipulation">RDS</button>
+                </div>
+                <!-- Linha 2 -->
+                <div class="grid grid-cols-3 gap-2">
+                    <button onclick="selectType('MOC')" id="btn-MOC" class="type-btn py-3 rounded-lg font-bold text-xs border transition-all duration-200 shadow-sm touch-action-manipulation">MOC</button>
+                    <button onclick="selectType('IND')" id="btn-IND" class="type-btn py-3 rounded-lg font-bold text-xs border transition-all duration-200 shadow-sm touch-action-manipulation">IND</button>
+                    <button onclick="selectType('REC')" id="btn-REC" class="type-btn py-3 rounded-lg font-bold text-xs border transition-all duration-200 shadow-sm touch-action-manipulation">REC</button>
+                    <button onclick="selectType('DOCREC')" id="btn-DOCREC" class="type-btn py-3 rounded-lg font-bold text-xs border transition-all duration-200 shadow-sm touch-action-manipulation">DOCREC</button>
+                    <button onclick="selectType('RSC')" id="btn-RSC" class="type-btn py-3 rounded-lg font-bold text-xs border transition-all duration-200 shadow-sm touch-action-manipulation">RSC</button>
+                    <button onclick="selectType('ANU')" id="btn-ANU" class="type-btn py-3 rounded-lg font-bold text-xs border transition-all duration-200 shadow-sm touch-action-manipulation">ANU</button>
+                </div>
+            </div>
         </div>
 
         <!-- Seção 2: Ano (Slider + Botões) -->
         <div>
             <div class="flex justify-between items-end mb-2">
                 <label class="text-sm font-medium text-gray-500">Ano</label>
-                <span id="yearDisplay" class="text-2xl font-bold text-blue-600">...</span>
+                <span id="yearDisplay" class="text-2xl font-bold text-gray-700">...</span>
             </div>
             <div class="relative w-full h-10 flex items-center">
                 <input type="range" id="yearSlider" class="w-full">
             </div>
-            <!-- Botões Granulares de Ano (substituindo os labels de limite) -->
+            <!-- Botões Granulares de Ano -->
             <div class="flex justify-between items-center mt-1">
-                <button onclick="adjustYear(-1)" class="w-10 h-10 flex items-center justify-center text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-full active:scale-90 transition-transform touch-action-manipulation font-bold text-xl">
+                <button onclick="adjustYear(-1)" class="w-10 h-10 flex items-center justify-center text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-full active:scale-90 transition-transform touch-action-manipulation font-bold text-xl">
                     −
                 </button>
-                <button onclick="adjustYear(1)" class="w-10 h-10 flex items-center justify-center text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-full active:scale-90 transition-transform touch-action-manipulation font-bold text-xl">
+                <button onclick="adjustYear(1)" class="w-10 h-10 flex items-center justify-center text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-full active:scale-90 transition-transform touch-action-manipulation font-bold text-xl">
                     +
                 </button>
             </div>
         </div>
 
         <!-- Seção 3: Número (Input + Botões + Sliders) -->
-        <div class="bg-blue-50/50 p-4 rounded-xl border border-blue-100">
+        <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
             <label class="block text-xs uppercase font-bold text-gray-400 mb-2 tracking-wider">Número</label>
             
-            <!-- Display/Input Principal com Botões Granulares -->
             <div class="relative flex items-center mb-4">
-                <!-- Botão Menos -->
-                <button onclick="adjustNumber(-1)" class="absolute left-2 w-12 h-12 flex items-center justify-center text-blue-600 hover:bg-blue-100 rounded-full active:scale-90 transition-transform z-10 touch-action-manipulation font-bold text-2xl pb-1">
+                <button onclick="adjustNumber(-1)" class="absolute left-2 w-12 h-12 flex items-center justify-center text-gray-500 hover:bg-gray-200 rounded-full active:scale-90 transition-transform z-10 touch-action-manipulation font-bold text-2xl pb-1">
                     −
                 </button>
                 
                 <input type="tel" id="projectNumber" pattern="[0-9]*" inputmode="numeric" placeholder="0" 
-                    class="w-full text-center text-4xl font-black py-2 px-14 bg-white border border-gray-200 rounded-lg focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all text-blue-700 shadow-sm">
+                    class="w-full text-center text-4xl font-black py-2 px-14 bg-white border border-gray-200 rounded-lg focus:ring-4 focus:ring-gray-200 focus:border-gray-400 outline-none transition-all text-gray-800 shadow-sm">
                 
-                <!-- Botão Mais -->
-                <button onclick="adjustNumber(1)" class="absolute right-2 w-12 h-12 flex items-center justify-center text-blue-600 hover:bg-blue-100 rounded-full active:scale-90 transition-transform z-10 touch-action-manipulation font-bold text-2xl pb-1">
+                <button onclick="adjustNumber(1)" class="absolute right-2 w-12 h-12 flex items-center justify-center text-gray-500 hover:bg-gray-200 rounded-full active:scale-90 transition-transform z-10 touch-action-manipulation font-bold text-2xl pb-1">
                     +
                 </button>
             </div>
 
-            <!-- Sistema de Sliders -->
             <div class="space-y-4">
-                <!-- Slider Macro (Centenas ou Milhares) -->
                 <div>
                     <div class="flex justify-between text-xs text-gray-400 mb-1 px-1">
                         <span>0</span>
-                        <span id="label-macro" class="font-bold text-blue-500">Centenas</span>
+                        <span id="label-macro" class="font-bold text-gray-600">Centenas</span>
                         <span id="max-macro-display">2000</span>
                     </div>
                     <input type="range" id="sliderMacro" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
                 </div>
 
-                <!-- Slider Mid (Centenas para Normas) - Oculto por padrão -->
                 <div id="container-mid" class="hidden">
                     <div class="flex justify-between text-xs text-gray-400 mb-1 px-1">
                         <span>0</span>
-                        <span class="font-bold text-blue-500">Centenas</span>
+                        <span class="font-bold text-gray-600">Centenas</span>
                         <span>900</span>
                     </div>
-                    <!-- Range 0-9 para representar 0-900 -->
                     <input type="range" id="sliderMid" min="0" max="9" value="0" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
                 </div>
 
-                <!-- Slider Micro (Unidades) -->
                 <div>
                     <div class="flex justify-between text-xs text-gray-400 mb-1 px-1">
                         <span>0</span>
-                        <span id="label-micro" class="font-bold text-blue-500">Unidades</span>
+                        <span id="label-micro" class="font-bold text-gray-600">Unidades</span>
                         <span id="max-micro-display">99</span>
                     </div>
                     <input type="range" id="sliderMicro" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
@@ -176,16 +182,15 @@
             </div>
         </div>
 
-        <!-- Mensagem de Erro -->
         <div id="errorMsg" class="hidden text-center text-red-500 text-sm font-medium bg-red-50 p-2 rounded-lg">
             Por favor, selecione ou digite o número.
         </div>
 
         <!-- Seção 4: Botões de Ação -->
         <div class="grid grid-cols-1 gap-3 pt-2">
-            <!-- Botões Projetos -->
+            <!-- Botões Projetos (COR ALTERADA PARA AZUL) -->
             <div id="actions-projetos" class="grid gap-3">
-                <button onclick="openUrl('splegis')" class="w-full bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 touch-action-manipulation">
+                <button onclick="openUrl('splegis')" class="w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 touch-action-manipulation">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
@@ -208,14 +213,21 @@
                     Abrir no PLP
                 </button>
             </div>
+            
+             <!-- Botões Outros -->
+            <div id="actions-outros" class="hidden grid gap-3">
+                <button onclick="openUrl('splegis')" class="w-full bg-orange-600 hover:bg-orange-700 active:bg-orange-800 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 touch-action-manipulation">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    Abrir no SPLegis
+                </button>
+            </div>
         </div>
 
     </div>
 
     <script>
-        // =========================================================
-        //  CONFIGURAÇÃO
-        // =========================================================
         const CONFIG = {
             defaultYear: 2025,
             maxYear: 2026,
@@ -223,7 +235,7 @@
                 minYear: 1991,
                 maxNumber: 2000,
                 defaultNumber: '',
-                hasMid: false, // Só usa 2 sliders
+                hasMid: false, 
                 macroStep: 100,
                 macroLabel: 'Centenas',
                 microMax: 99
@@ -232,24 +244,37 @@
                 minYear: 1980,
                 maxNumber: 70000,
                 defaultNumber: '18000',
-                hasMid: true, // Usa 3 sliders
+                hasMid: true, 
                 macroStep: 1000,
                 macroLabel: 'Milhares',
+                microMax: 99
+            },
+            outros: {
+                minYear: 1991,
+                maxNumber: 2300,
+                defaultNumber: '',
+                hasMid: false, 
+                macroStep: 100,
+                macroLabel: 'Centenas',
                 microMax: 99
             }
         };
 
         let state = {
-            mode: 'projetos', // 'projetos' ou 'normas'
+            mode: 'projetos', 
             type: 'PL',
             number: '',
             year: CONFIG.defaultYear
         };
 
-        const spLegisCodes = { 'PL': 1, 'PDL': 2, 'PR': 3, 'PLO': 4 };
+        const spLegisCodes = { 
+            'PL': 1, 'PDL': 2, 'PR': 3, 'PLO': 4,
+            'RPP': 6, 'RPS': 7, 'RDP': 8, 'RDS': 13,
+            'MOC': 5, 'IND': 9, 'REC': 11, 'DOCREC': 15, 'RSC': 37, 'ANU': 68
+        };
+        
         const plpCodes = { 'Lei': 'Lei', 'Decreto': 'DEC', 'DecLeg': 'DECLEG', 'Ato': 'Ato' };
 
-        // Elementos DOM
         const yearSlider = document.getElementById('yearSlider');
         const yearDisplay = document.getElementById('yearDisplay');
         const numberInput = document.getElementById('projectNumber');
@@ -258,13 +283,17 @@
         const sliderMicro = document.getElementById('sliderMicro');
         const errorMsg = document.getElementById('errorMsg');
         
-        // Elementos de UI Dinâmicos
         const tabProjetos = document.getElementById('tab-projetos');
         const tabNormas = document.getElementById('tab-normas');
+        const tabOutros = document.getElementById('tab-outros');
+
         const typesProjetos = document.getElementById('types-projetos');
         const typesNormas = document.getElementById('types-normas');
+        const typesOutros = document.getElementById('types-outros');
+
         const actionsProjetos = document.getElementById('actions-projetos');
         const actionsNormas = document.getElementById('actions-normas');
+        const actionsOutros = document.getElementById('actions-outros');
         
         const labelMacro = document.getElementById('label-macro');
         const labelMicro = document.getElementById('label-micro');
@@ -273,25 +302,21 @@
         const containerMid = document.getElementById('container-mid');
 
         function init() {
-            setMode('projetos'); // Inicializa no modo padrão
+            setMode('projetos'); 
 
-            // Listeners Sliders Número
             sliderMacro.addEventListener('input', updateFromSliders);
             sliderMid.addEventListener('input', updateFromSliders);
             sliderMicro.addEventListener('input', updateFromSliders);
 
-            // Listener Ano
             yearSlider.addEventListener('input', (e) => {
                 state.year = e.target.value;
                 yearDisplay.innerText = state.year;
             });
 
-            // Listener Input Manual
             numberInput.addEventListener('input', (e) => {
                 let val = e.target.value.replace(/\D/g, '');
-                const max = state.mode === 'projetos' ? CONFIG.projetos.maxNumber : CONFIG.normas.maxNumber;
+                const max = CONFIG[state.mode].maxNumber;
                 
-                // Limite simples no input manual
                 if (parseInt(val) > max) val = max.toString();
                 
                 e.target.value = val;
@@ -313,17 +338,16 @@
             
             numberInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
-                    if(state.mode === 'projetos') openUrl('splegis');
+                    if(state.mode === 'projetos' || state.mode === 'outros') openUrl('splegis');
                     else openUrl('plp');
                     numberInput.blur();
                 }
             });
         }
 
-        // --- Ajuste Granular de Ano (+/-) ---
         function adjustYear(delta) {
             let val = parseInt(state.year);
-            const min = state.mode === 'projetos' ? CONFIG.projetos.minYear : CONFIG.normas.minYear;
+            const min = CONFIG[state.mode].minYear;
             const max = CONFIG.maxYear;
 
             val += delta;
@@ -336,10 +360,9 @@
             yearDisplay.innerText = val;
         }
 
-        // --- Nova Função: Ajuste Granular (Botões +/-) ---
         function adjustNumber(delta) {
             let val = parseInt(state.number || 0);
-            const max = state.mode === 'projetos' ? CONFIG.projetos.maxNumber : CONFIG.normas.maxNumber;
+            const max = CONFIG[state.mode].maxNumber;
             
             val += delta;
             
@@ -354,38 +377,29 @@
                 hideError();
             } else {
                 if (val === 0) {
-                    // Mantém 0 visível, mas pode zerar sliders
                     syncSlidersFromNumber(0);
                 }
             }
         }
 
-        // --- Gestão de Modo (Projetos vs Normas) ---
         function setMode(mode) {
             state.mode = mode;
             const settings = CONFIG[mode];
             
-            // 1. Atualizar Abas e Visibilidade
-            if (mode === 'projetos') {
-                toggleUI('projetos');
-                selectType('PL'); 
-            } else {
-                toggleUI('normas');
-                selectType('Lei');
-            }
+            toggleUI(mode);
+            
+            if(mode === 'projetos') selectType('PL');
+            else if(mode === 'normas') selectType('Lei');
+            else if(mode === 'outros') selectType('RPP');
 
-            // 2. Configurar Slider de Ano
             yearSlider.min = settings.minYear;
             yearSlider.max = CONFIG.maxYear;
             yearSlider.value = CONFIG.defaultYear;
             yearDisplay.innerText = CONFIG.defaultYear;
             state.year = CONFIG.defaultYear;
-            // (Removido minYearLabel pois foi substituído pelos botões)
-
-            // 3. Configurar Sliders de Número
+            
             configureNumberSliders(mode);
             
-            // 4. Resetar ou definir Padrão
             state.number = settings.defaultNumber;
             numberInput.value = state.number;
             
@@ -399,71 +413,72 @@
             }
         }
 
+        // Lógica de Classes das Abas
         function toggleUI(activeMode) {
-            const isProjetos = activeMode === 'projetos';
+            // Estilos Básicos (Inativo)
+            const inactiveClass = "bg-white text-gray-600 border-gray-200";
             
-            // Abas
-            tabProjetos.className = isProjetos ? tabProjetos.className.replace('mode-btn-inactive', 'mode-btn-active') : tabProjetos.className.replace('mode-btn-active', 'mode-btn-inactive');
-            tabNormas.className = !isProjetos ? tabNormas.className.replace('mode-btn-inactive', 'mode-btn-active') : tabNormas.className.replace('mode-btn-active', 'mode-btn-inactive');
-            
-            // Paineis
-            if (isProjetos) {
+            // Estilos Ativos por Cor
+            const activeBlue = "bg-blue-600 text-white border-blue-600";
+            const activePurple = "bg-purple-600 text-white border-purple-600";
+            const activeOrange = "bg-orange-600 text-white border-orange-600";
+
+            // Limpa tudo para inativo primeiro
+            tabProjetos.className = `tab-base py-3 font-bold text-sm rounded-l-2xl border border-r-0 touch-action-manipulation ${inactiveClass}`;
+            tabNormas.className = `tab-base py-3 font-bold text-sm border-l-0 border-r-0 touch-action-manipulation ${inactiveClass}`;
+            tabOutros.className = `tab-base py-3 font-bold text-sm rounded-r-2xl border border-l-0 touch-action-manipulation ${inactiveClass}`;
+
+            // Reset Visibilidade
+            typesProjetos.classList.add('hidden');
+            typesNormas.classList.add('hidden');
+            typesOutros.classList.add('hidden');
+            actionsProjetos.classList.add('hidden');
+            actionsNormas.classList.add('hidden');
+            actionsOutros.classList.add('hidden');
+            containerMid.classList.add('hidden');
+
+            // Aplica Ativo
+            if (activeMode === 'projetos') {
+                tabProjetos.className = `tab-base py-3 font-bold text-sm rounded-l-2xl border border-r-0 touch-action-manipulation ${activeBlue}`;
                 typesProjetos.classList.remove('hidden');
-                typesNormas.classList.add('hidden');
                 actionsProjetos.classList.remove('hidden');
-                actionsNormas.classList.add('hidden');
-                containerMid.classList.add('hidden'); // Esconde 3º slider
-            } else {
+            } 
+            else if (activeMode === 'normas') {
+                tabNormas.className = `tab-base py-3 font-bold text-sm border-l-0 border-r-0 touch-action-manipulation ${activePurple}`;
                 typesNormas.classList.remove('hidden');
-                typesProjetos.classList.add('hidden');
                 actionsNormas.classList.remove('hidden');
-                actionsProjetos.classList.add('hidden');
-                containerMid.classList.remove('hidden'); // Mostra 3º slider
+                containerMid.classList.remove('hidden');
+            }
+            else if (activeMode === 'outros') {
+                tabOutros.className = `tab-base py-3 font-bold text-sm rounded-r-2xl border border-l-0 touch-action-manipulation ${activeOrange}`;
+                typesOutros.classList.remove('hidden');
+                actionsOutros.classList.remove('hidden');
             }
         }
 
         function configureNumberSliders(mode) {
             const settings = CONFIG[mode];
-            
-            // Configurar Labels
             labelMacro.innerText = settings.macroLabel;
             maxMacroDisplay.innerText = settings.maxNumber;
             maxMicroDisplay.innerText = settings.microMax;
-
-            // Range Macro
-            // Projetos: 2000 / 100 = 20
-            // Normas: 70000 / 1000 = 70
             const macroMax = Math.floor(settings.maxNumber / settings.macroStep);
             sliderMacro.max = macroMax;
-            
-            // Range Micro
             sliderMicro.max = settings.microMax;
-            
-            // Range Mid (Fixo 0-9 para centenas)
-            // Se necessário, poderia vir do config, mas 0-9 * 100 cobre o intervalo
         }
 
-        // --- Lógica de Slider Unificada ---
         function updateFromSliders() {
             const settings = CONFIG[state.mode];
-            
             const macroVal = parseInt(sliderMacro.value);
             const microVal = parseInt(sliderMicro.value);
-            
             let total = 0;
 
             if (settings.hasMid) {
-                // Lógica de 3 níveis (Normas)
-                // Total = (Macro * 1000) + (Mid * 100) + Micro
                 const midVal = parseInt(sliderMid.value);
                 total = (macroVal * 1000) + (midVal * 100) + microVal;
             } else {
-                // Lógica de 2 níveis (Projetos)
-                // Total = (Macro * 100) + Micro
                 total = (macroVal * 100) + microVal;
             }
             
-            // Cap (Limite Máximo)
             const finalVal = Math.min(total, settings.maxNumber);
 
             if (finalVal > 0) {
@@ -483,10 +498,6 @@
             const settings = CONFIG[state.mode];
             
             if (settings.hasMid) {
-                // Decompor em 3 partes: 18452
-                // Macro (Milhar): 18
-                // Mid (Centena): 4
-                // Micro (Unidade): 52
                 const macro = Math.floor(num / 1000);
                 const remainder = num % 1000;
                 const mid = Math.floor(remainder / 100);
@@ -495,9 +506,7 @@
                 sliderMacro.value = macro;
                 sliderMid.value = mid;
                 sliderMicro.value = micro;
-
             } else {
-                // Decompor em 2 partes
                 const macro = Math.floor(num / settings.macroStep);
                 const micro = num % settings.macroStep;
                 
@@ -506,31 +515,31 @@
             }
         }
 
-        // --- Seleção de Tipo ---
         function selectType(type) {
             state.type = type;
             
-            // Atualizar UI de botões
-            const group = state.mode === 'projetos' 
-                ? ['PL', 'PDL', 'PR', 'PLO'] 
-                : ['Lei', 'Decreto', 'DecLeg', 'Ato']; // Adicionado Ato ao grupo
+            const allTypes = [
+                'PL', 'PDL', 'PR', 'PLO',
+                'Lei', 'Decreto', 'DecLeg', 'Ato',
+                'RPP', 'RPS', 'RDP', 'RDS', 'MOC', 'IND', 'REC', 'DOCREC', 'RSC', 'ANU'
+            ];
 
-            group.forEach(t => {
+            allTypes.forEach(t => {
                 const btn = document.getElementById(`btn-${t}`);
                 if (!btn) return;
                 
                 if (t === state.type) {
-                    btn.className = "type-btn active-type w-full py-3 rounded-lg font-bold text-sm border border-blue-600 bg-blue-600 text-white shadow-md transform scale-105 transition-all duration-200 touch-action-manipulation";
-                    if(state.mode === 'normas') {
-                         btn.className = btn.className.replace(/blue/g, 'purple');
-                    }
+                    let colorClass = "bg-blue-600 border-blue-600";
+                    if(state.mode === 'normas') colorClass = "bg-purple-600 border-purple-600";
+                    if(state.mode === 'outros') colorClass = "bg-orange-600 border-orange-600";
+
+                    btn.className = `type-btn w-full py-3 rounded-lg font-bold text-xs sm:text-sm border text-white shadow-md transform scale-105 transition-all duration-200 touch-action-manipulation ${colorClass}`;
                 } else {
-                    btn.className = "type-btn w-full py-3 rounded-lg font-bold text-sm border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 touch-action-manipulation";
+                    btn.className = "type-btn w-full py-3 rounded-lg font-bold text-xs sm:text-sm border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 touch-action-manipulation";
                 }
             });
         }
 
-        // --- Abrir URL ---
         function openUrl(destination) {
             if (!state.number || state.number === "0") {
                 showError();
@@ -540,18 +549,15 @@
 
             let url = '';
             
-            if (state.mode === 'projetos') {
+            if (state.mode === 'projetos' || state.mode === 'outros') {
                 if (destination === 'splegis') {
                     const code = spLegisCodes[state.type];
-                    // Link atualizado para o novo formato do SPLegis
                     url = `https://splegisconsulta.saopaulo.sp.leg.br/Pesquisa/DetailsMateriaTramitacaoLegislativa?tipo=${code}&numero=${state.number}&ano=${state.year}`;
                 } else {
                     const searchExpr = `${state.type}${state.number}${state.year}`;
                     url = `https://www.saopaulo.sp.leg.br/cgi-bin/wxis.bin/iah/scripts/?IsisScript=iah.xis&lang=pt&format=detalhado.pft&base=proje&form=A&nextAction=search&indexSearch=^nTw^lTodos%20os%20campos&exprSearch=P=${searchExpr}`;
                 }
             } else {
-                // Modo Normas (PLP)
-                // Ex: https://app-plpconsulta-prd.azurewebsites.net/Forms/MostrarArquivo?TIPO=Lei&NUMERO=18378&ANO=2025&DOCUMENTO=Ficha
                 const tipoCode = plpCodes[state.type];
                 url = `https://app-plpconsulta-prd.azurewebsites.net/Forms/MostrarArquivo?TIPO=${tipoCode}&NUMERO=${state.number}&ANO=${state.year}&DOCUMENTO=Ficha`;
             }
