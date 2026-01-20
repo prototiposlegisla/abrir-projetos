@@ -11,18 +11,23 @@
         input[type=range] {
             -webkit-appearance: none; 
             background: transparent; 
-            /* ALTERADO: pan-y permite rolar a página verticalmente mesmo tocando no slider */
             touch-action: pan-y;
+            /* TRUQUE CSS: O slider em si não recebe cliques (permite rolar a tela) */
+            pointer-events: none;
         }
         
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            height: 32px;
-            width: 32px;
+            /* TRUQUE CSS: Apenas a bolinha recebe cliques/arraste */
+            pointer-events: auto;
+            
+            /* Aumentado para 36px para facilitar o toque preciso */
+            height: 36px;
+            width: 36px;
             border-radius: 50%;
             background: #2563EB;
-            cursor: pointer;
-            margin-top: -13px; 
+            cursor: grab;
+            margin-top: -15px; /* Ajuste para centralizar (36px) */
             box-shadow: 0 3px 6px rgba(0,0,0,0.3);
             border: 3px solid white;
         }
@@ -33,6 +38,18 @@
             cursor: pointer;
             background: #E2E8F0;
             border-radius: 3px;
+        }
+
+        /* Suporte para Firefox */
+        input[type=range]::-moz-range-thumb {
+            pointer-events: auto;
+            height: 36px;
+            width: 36px;
+            border-radius: 50%;
+            background: #2563EB;
+            cursor: grab;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+            border: 3px solid white;
         }
 
         .touch-action-manipulation {
@@ -254,10 +271,6 @@
         function init() {
             setMode('projetos'); // Inicializa no modo padrão
 
-            // Proteger sliders contra "pulos" acidentais
-            // Aplica a todos os sliders
-            [yearSlider, sliderMacro, sliderMid, sliderMicro].forEach(setupSliderProtection);
-
             // Listeners Sliders Número
             sliderMacro.addEventListener('input', updateFromSliders);
             sliderMid.addEventListener('input', updateFromSliders);
@@ -299,35 +312,6 @@
                     if(state.mode === 'projetos') openUrl('splegis');
                     else openUrl('plp');
                     numberInput.blur();
-                }
-            });
-        }
-
-        // --- Nova Função: Proteção contra Pulos no Slider ---
-        function setupSliderProtection(slider) {
-            slider.addEventListener('pointerdown', (e) => {
-                // Se não for o botão primário, ignora
-                if (e.buttons !== 1 && e.isPrimary === false) return;
-
-                const rect = slider.getBoundingClientRect();
-                const min = parseFloat(slider.min) || 0;
-                const max = parseFloat(slider.max) || 100;
-                const val = parseFloat(slider.value) || 0;
-                
-                // O thumb tem 32px. Usamos um raio de proteção.
-                const thumbWidth = 32;
-                
-                // Calcula onde está visualmente o centro da bolinha
-                const percent = (val - min) / (max - min);
-                // A posição visual considera que a bolinha não sai do container
-                const visualThumbX = (percent * (rect.width - thumbWidth)) + (thumbWidth / 2);
-                
-                // Posição do clique
-                const clickX = e.clientX - rect.left;
-                
-                // Se clicou a mais de 25px do centro da bolinha, bloqueia o pulo
-                if (Math.abs(clickX - visualThumbX) > 25) {
-                    e.preventDefault();
                 }
             });
         }
