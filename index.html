@@ -11,13 +11,12 @@
         input[type=range] {
             -webkit-appearance: none; 
             background: transparent; 
-            /* Previne rolagem da página ao arrastar o slider */
-            touch-action: none;
+            /* ALTERADO: pan-y permite rolar a página verticalmente mesmo tocando no slider */
+            touch-action: pan-y;
         }
         
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            /* Tamanho aumentado para evitar "pulo" ao soltar */
             height: 32px;
             width: 32px;
             border-radius: 50%;
@@ -255,6 +254,10 @@
         function init() {
             setMode('projetos'); // Inicializa no modo padrão
 
+            // Proteger sliders contra "pulos" acidentais
+            // Aplica a todos os sliders
+            [yearSlider, sliderMacro, sliderMid, sliderMicro].forEach(setupSliderProtection);
+
             // Listeners Sliders Número
             sliderMacro.addEventListener('input', updateFromSliders);
             sliderMid.addEventListener('input', updateFromSliders);
@@ -296,6 +299,35 @@
                     if(state.mode === 'projetos') openUrl('splegis');
                     else openUrl('plp');
                     numberInput.blur();
+                }
+            });
+        }
+
+        // --- Nova Função: Proteção contra Pulos no Slider ---
+        function setupSliderProtection(slider) {
+            slider.addEventListener('pointerdown', (e) => {
+                // Se não for o botão primário, ignora
+                if (e.buttons !== 1 && e.isPrimary === false) return;
+
+                const rect = slider.getBoundingClientRect();
+                const min = parseFloat(slider.min) || 0;
+                const max = parseFloat(slider.max) || 100;
+                const val = parseFloat(slider.value) || 0;
+                
+                // O thumb tem 32px. Usamos um raio de proteção.
+                const thumbWidth = 32;
+                
+                // Calcula onde está visualmente o centro da bolinha
+                const percent = (val - min) / (max - min);
+                // A posição visual considera que a bolinha não sai do container
+                const visualThumbX = (percent * (rect.width - thumbWidth)) + (thumbWidth / 2);
+                
+                // Posição do clique
+                const clickX = e.clientX - rect.left;
+                
+                // Se clicou a mais de 25px do centro da bolinha, bloqueia o pulo
+                if (Math.abs(clickX - visualThumbX) > 25) {
+                    e.preventDefault();
                 }
             });
         }
