@@ -101,7 +101,27 @@
             </div>
         </div>
 
-        <!-- Seção 2: Número (Input + Botões + Sliders) -->
+        <!-- Seção 2: Ano (Slider + Botões) -->
+        <div>
+            <div class="flex justify-between items-end mb-2">
+                <label class="text-sm font-medium text-gray-500">Ano</label>
+                <span id="yearDisplay" class="text-2xl font-bold text-blue-600">...</span>
+            </div>
+            <div class="relative w-full h-10 flex items-center">
+                <input type="range" id="yearSlider" class="w-full">
+            </div>
+            <!-- Botões Granulares de Ano (substituindo os labels de limite) -->
+            <div class="flex justify-between items-center mt-1">
+                <button onclick="adjustYear(-1)" class="w-10 h-10 flex items-center justify-center text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-full active:scale-90 transition-transform touch-action-manipulation font-bold text-xl">
+                    −
+                </button>
+                <button onclick="adjustYear(1)" class="w-10 h-10 flex items-center justify-center text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-full active:scale-90 transition-transform touch-action-manipulation font-bold text-xl">
+                    +
+                </button>
+            </div>
+        </div>
+
+        <!-- Seção 3: Número (Input + Botões + Sliders) -->
         <div class="bg-blue-50/50 p-4 rounded-xl border border-blue-100">
             <label class="block text-xs uppercase font-bold text-gray-400 mb-2 tracking-wider">Número</label>
             
@@ -153,21 +173,6 @@
                     </div>
                     <input type="range" id="sliderMicro" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
                 </div>
-            </div>
-        </div>
-
-        <!-- Seção 3: Ano (Slider) -->
-        <div>
-            <div class="flex justify-between items-end mb-2">
-                <label class="text-sm font-medium text-gray-500">Ano</label>
-                <span id="yearDisplay" class="text-2xl font-bold text-blue-600">...</span>
-            </div>
-            <div class="relative w-full h-10 flex items-center">
-                <input type="range" id="yearSlider" class="w-full">
-            </div>
-            <div class="flex justify-between text-xs text-gray-400 mt-1">
-                <span id="minYearLabel">1991</span>
-                <span id="maxYearLabel">2026</span>
             </div>
         </div>
 
@@ -265,7 +270,6 @@
         const labelMicro = document.getElementById('label-micro');
         const maxMacroDisplay = document.getElementById('max-macro-display');
         const maxMicroDisplay = document.getElementById('max-micro-display');
-        const minYearLabel = document.getElementById('minYearLabel');
         const containerMid = document.getElementById('container-mid');
 
         function init() {
@@ -316,6 +320,22 @@
             });
         }
 
+        // --- Ajuste Granular de Ano (+/-) ---
+        function adjustYear(delta) {
+            let val = parseInt(state.year);
+            const min = state.mode === 'projetos' ? CONFIG.projetos.minYear : CONFIG.normas.minYear;
+            const max = CONFIG.maxYear;
+
+            val += delta;
+
+            if (val < min) val = min;
+            if (val > max) val = max;
+
+            state.year = val;
+            yearSlider.value = val;
+            yearDisplay.innerText = val;
+        }
+
         // --- Nova Função: Ajuste Granular (Botões +/-) ---
         function adjustNumber(delta) {
             let val = parseInt(state.number || 0);
@@ -360,7 +380,7 @@
             yearSlider.value = CONFIG.defaultYear;
             yearDisplay.innerText = CONFIG.defaultYear;
             state.year = CONFIG.defaultYear;
-            minYearLabel.innerText = settings.minYear;
+            // (Removido minYearLabel pois foi substituído pelos botões)
 
             // 3. Configurar Sliders de Número
             configureNumberSliders(mode);
