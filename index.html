@@ -116,7 +116,8 @@
         </div>
 
         <!-- Seção 2: Ano (Slider + Botões) -->
-        <div>
+        <!-- Adicionado ID "section-year" para controle via JS -->
+        <div id="section-year">
             <div class="flex justify-between items-end mb-2">
                 <label class="text-sm font-medium text-gray-500">Ano</label>
                 <span id="yearDisplay" class="text-2xl font-bold text-gray-700">...</span>
@@ -137,7 +138,13 @@
 
         <!-- Seção 3: Número (Input + Botões + Sliders) -->
         <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
-            <label class="block text-xs uppercase font-bold text-gray-400 mb-2 tracking-wider">Número</label>
+            <div class="flex justify-between items-center mb-2">
+                <label class="block text-xs uppercase font-bold text-gray-400 tracking-wider">Número</label>
+                <!-- Badge de Ano Automático (Visível apenas em Normas) -->
+                <span id="autoYearBadge" class="hidden text-xs uppercase font-bold text-gray-400 tracking-wider">
+                    ANO: <span id="autoYearValue" class="text-gray-600">...</span>
+                </span>
+            </div>
             
             <div class="relative flex items-center mb-4">
                 <button onclick="adjustNumber(-1)" class="absolute left-2 w-12 h-12 flex items-center justify-center text-gray-500 hover:bg-gray-200 rounded-full active:scale-90 transition-transform z-10 touch-action-manipulation font-bold text-2xl pb-1">
@@ -194,7 +201,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
-                    Abrir no SPLegis
+                    Abrir no SPLegis Consulta
                 </button>
                 <!-- Botão SPLegis INTRA (Projetos) -->
                 <button onclick="openUrl('splegis_intra')" class="w-full bg-blue-800 hover:bg-blue-900 active:bg-blue-950 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 touch-action-manipulation">
@@ -207,7 +214,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
                     </svg>
-                    Abrir no Portal
+                    Abrir na Biblioteca
                 </button>
             </div>
 
@@ -227,7 +234,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
-                    Abrir no SPLegis
+                    Abrir no SPLegis Consulta
                 </button>
                 <!-- Botão SPLegis INTRA (Outros) -->
                 <button onclick="openUrl('splegis_intra')" class="w-full bg-orange-800 hover:bg-orange-900 active:bg-orange-950 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 touch-action-manipulation">
@@ -242,6 +249,140 @@
     </div>
 
     <script>
+        // Mapeamento de Numeração (Leis, Decretos e Atos)
+        const NORMA_RANGES = {
+            'Lei': [
+                { year: 2026, min: 18379, max: 18600 },
+                { year: 2025, min: 18223, max: 18378 },
+                { year: 2024, min: 18067, max: 18222 },
+                { year: 2023, min: 17881, max: 18066 },
+                { year: 2022, min: 17731, max: 17880 },
+                { year: 2021, min: 17545, max: 17730 },
+                { year: 2020, min: 17258, max: 17544 },
+                { year: 2019, min: 17022, max: 17257 },
+                { year: 2018, min: 16780, max: 17021 },
+                { year: 2017, min: 16609, max: 16779 },
+                { year: 2016, min: 16316, max: 16608 },
+                { year: 2015, min: 16100, max: 16315 },
+                { year: 2014, min: 15951, max: 16099 },
+                { year: 2013, min: 15578, max: 15950 },
+                { year: 2012, min: 15520, max: 15577 },
+                { year: 2011, min: 15357, max: 15519 },
+                { year: 2010, min: 15091, max: 15356 },
+                { year: 2009, min: 14873, max: 15090 },
+                { year: 2008, min: 14662, max: 14872 },
+                { year: 2007, min: 14259, max: 14661 },
+                { year: 2006, min: 14123, max: 14258 },
+                { year: 2005, min: 13944, max: 14122 },
+                { year: 2004, min: 13505, max: 13943 },
+                { year: 2003, min: 13474, max: 13504 },
+                { year: 2002, min: 13257, max: 13473 },
+                { year: 2001, min: 13110, max: 13256 },
+                { year: 2000, min: 12965, max: 13109 },
+                { year: 1999, min: 12784, max: 12964 },
+                { year: 1998, min: 12545, max: 12783 },
+                { year: 1997, min: 12289, max: 12544 },
+                { year: 1996, min: 11736, max: 12288 },
+                { year: 1995, min: 11471, max: 11735 },
+                { year: 1994, min: 11462, max: 11470 },
+                { year: 1993, min: 11339, max: 11461 },
+                { year: 1992, min: 11159, max: 11338 },
+                { year: 1991, min: 10924, max: 11158 },
+                { year: 1990, min: 10823, max: 10923 },
+                { year: 1989, min: 10721, max: 10822 },
+                { year: 1988, min: 10396, max: 10720 },
+                { year: 1987, min: 10237, max: 10395 },
+                { year: 1986, min: 10033, max: 10236 },
+                { year: 1985, min: 9807, max: 10032 },
+                { year: 1984, min: 9671, max: 9806 }
+            ],
+            'Decreto': [
+                { year: 2026, min: 64893, max: 66000 },
+                { year: 2025, min: 64002, max: 64892 },
+                { year: 2024, min: 63112, max: 64001 },
+                { year: 2023, min: 62141, max: 63111 },
+                { year: 2022, min: 60984, max: 62140 },
+                { year: 2021, min: 60042, max: 60983 },
+                { year: 2020, min: 59168, max: 60041 },
+                { year: 2019, min: 58595, max: 59167 },
+                { year: 2018, min: 58004, max: 58594 },
+                { year: 2017, min: 56833, max: 58003 },
+                { year: 2016, min: 56756, max: 56832 },
+                { year: 2015, min: 55821, max: 56755 },
+                { year: 2014, min: 54732, max: 55820 },
+                { year: 2013, min: 53683, max: 54731 },
+                { year: 2012, min: 52886, max: 53682 },
+                { year: 2011, min: 52064, max: 52885 },
+                { year: 2010, min: 51123, max: 52063 },
+                { year: 2009, min: 50343, max: 51122 },
+                { year: 2008, min: 49076, max: 50342 },
+                { year: 2007, min: 48082, max: 49075 },
+                { year: 2006, min: 46878, max: 48081 },
+                { year: 2005, min: 45677, max: 46877 },
+                { year: 2004, min: 44280, max: 45676 },
+                { year: 2003, min: 42762, max: 44279 },
+                { year: 2002, min: 41286, max: 42761 },
+                { year: 2001, min: 40214, max: 41285 },
+                { year: 2000, min: 38901, max: 40213 },
+                { year: 1999, min: 37784, max: 38900 },
+                { year: 1998, min: 37264, max: 37783 },
+                { year: 1997, min: 36658, max: 37263 }
+            ],
+            'Ato': [
+                { year: 2026, min: 1694, max: 1800 },
+                { year: 2025, min: 1654, max: 1693 },
+                { year: 2024, min: 1625, max: 1653 },
+                { year: 2023, min: 1564, max: 1624 },
+                { year: 2022, min: 1531, max: 1563 },
+                { year: 2021, min: 1502, max: 1530 },
+                { year: 2020, min: 1458, max: 1501 },
+                { year: 2019, min: 1420, max: 1457 },
+                { year: 2018, min: 1396, max: 1419 },
+                { year: 2017, min: 1356, max: 1395 },
+                { year: 2016, min: 1325, max: 1355 },
+                { year: 2015, min: 1290, max: 1324 },
+                { year: 2014, min: 1259, max: 1289 },
+                { year: 2013, min: 1209, max: 1258 },
+                { year: 2012, min: 1177, max: 1208 },
+                { year: 2011, min: 1131, max: 1176 },
+                { year: 2010, min: 1106, max: 1130 },
+                { year: 2009, min: 1042, max: 1105 },
+                { year: 2008, min: 1014, max: 1041 },
+                { year: 2007, min: 948, max: 1013 },
+                { year: 2006, min: 912, max: 947 },
+                { year: 2005, min: 865, max: 911 },
+                { year: 2004, min: 834, max: 864 },
+                { year: 2003, min: 788, max: 833 },
+                { year: 2002, min: 752, max: 787 },
+                { year: 2001, min: 692, max: 751 },
+                { year: 2000, min: 667, max: 691 },
+                { year: 1999, min: 637, max: 666 },
+                { year: 1998, min: 608, max: 636 },
+                { year: 1997, min: 561, max: 607 },
+                { year: 1996, min: 536, max: 560 },
+                { year: 1995, min: 521, max: 535 },
+                { year: 1994, min: 478, max: 520 },
+                { year: 1993, min: 428, max: 477 },
+                { year: 1992, min: 378, max: 427 },
+                { year: 1991, min: 336, max: 377 },
+                { year: 1990, min: 287, max: 335 },
+                { year: 1989, min: 237, max: 286 },
+                { year: 1988, min: 219, max: 236 },
+                { year: 1987, min: 201, max: 218 },
+                { year: 1986, min: 189, max: 200 },
+                { year: 1985, min: 164, max: 188 },
+                { year: 1984, min: 148, max: 163 },
+                { year: 1983, min: 124, max: 147 },
+                { year: 1982, min: 103, max: 123 },
+                { year: 1981, min: 89, max: 102 },
+                { year: 1980, min: 72, max: 88 },
+                { year: 1979, min: 48, max: 71 },
+                { year: 1978, min: 34, max: 47 },
+                { year: 1977, min: 21, max: 33 },
+                { year: 1976, min: 1, max: 20 }
+            ]
+        };
+
         const CONFIG = {
             defaultYear: 2025,
             maxYear: 2026,
@@ -255,7 +396,7 @@
                 microMax: 99
             },
             normas: {
-                minYear: 1980,
+                minYear: 1976,
                 maxNumber: 70000,
                 defaultNumber: '18000',
                 hasMid: true, 
@@ -314,6 +455,11 @@
         const maxMacroDisplay = document.getElementById('max-macro-display');
         const maxMicroDisplay = document.getElementById('max-micro-display');
         const containerMid = document.getElementById('container-mid');
+        
+        // Elementos da nova seção de ano
+        const sectionYear = document.getElementById('section-year');
+        const autoYearBadge = document.getElementById('autoYearBadge');
+        const autoYearValue = document.getElementById('autoYearValue');
 
         function init() {
             setMode('projetos'); 
@@ -336,6 +482,11 @@
                 e.target.value = val;
                 state.number = val;
 
+                // Tenta adivinhar o ano se for Norma
+                if (val && state.mode === 'normas') {
+                    autoSelectYear(val);
+                }
+
                 if (val) {
                     syncSlidersFromNumber(val);
                     hideError();
@@ -357,6 +508,28 @@
                     numberInput.blur();
                 }
             });
+        }
+
+        // Função de Adivinhação de Ano
+        function autoSelectYear(numberStr) {
+            const num = parseInt(numberStr);
+            const ranges = NORMA_RANGES[state.type]; 
+            
+            if (!ranges) return; 
+
+            const found = ranges.find(r => num >= r.min && num <= r.max);
+            
+            if (found) {
+                state.year = found.year;
+                // Atualiza sliders (mesmo ocultos) para manter consistência
+                yearSlider.value = found.year;
+                yearDisplay.innerText = found.year;
+                
+                // Atualiza o Badge
+                autoYearValue.innerText = found.year;
+            } else {
+                 autoYearValue.innerText = "...";
+            }
         }
 
         function adjustYear(delta) {
@@ -385,6 +558,11 @@
             
             state.number = val.toString();
             numberInput.value = val;
+
+            // Trigger "Adivinhação" também nos botões +/-
+            if (state.mode === 'normas' && val > 0) {
+                autoSelectYear(val.toString());
+            }
             
             if (val > 0) {
                 syncSlidersFromNumber(val);
@@ -404,7 +582,7 @@
             
             if(mode === 'projetos') selectType('PL');
             else if(mode === 'normas') selectType('Lei');
-            else if(mode === 'outros') selectType('RPP');
+            else if(mode === 'outros') selectType('RDS');
 
             yearSlider.min = settings.minYear;
             yearSlider.max = CONFIG.maxYear;
@@ -417,6 +595,11 @@
             state.number = settings.defaultNumber;
             numberInput.value = state.number;
             
+            // Se entrar em normas com número pré-definido, calcula ano
+            if(mode === 'normas' && state.number) {
+                 autoSelectYear(state.number);
+            }
+            
             if (state.number) {
                 syncSlidersFromNumber(state.number);
                 hideError();
@@ -427,7 +610,7 @@
             }
         }
 
-        // Lógica de Classes das Abas
+        // Lógica de Classes das Abas e UI
         function toggleUI(activeMode) {
             // Estilos Básicos (Inativo)
             const inactiveClass = "bg-white text-gray-600 border-gray-200";
@@ -450,6 +633,10 @@
             actionsNormas.classList.add('hidden');
             actionsOutros.classList.add('hidden');
             containerMid.classList.add('hidden');
+            
+            // Reset Seção de Ano e Badge (Padrão: mostrar ano, esconder badge)
+            sectionYear.classList.remove('hidden');
+            autoYearBadge.classList.add('hidden');
 
             // Aplica Ativo
             if (activeMode === 'projetos') {
@@ -462,6 +649,11 @@
                 typesNormas.classList.remove('hidden');
                 actionsNormas.classList.remove('hidden');
                 containerMid.classList.remove('hidden');
+                
+                // ESCONDER SEÇÃO DE ANO E MOSTRAR BADGE
+                // Essa lógica será refinada no selectType para o DecLeg
+                sectionYear.classList.add('hidden');
+                autoYearBadge.classList.remove('hidden');
             }
             else if (activeMode === 'outros') {
                 tabOutros.className = `tab-base py-3 font-bold text-sm rounded-r-2xl border border-l-0 touch-action-manipulation ${activeOrange}`;
@@ -498,6 +690,11 @@
             if (finalVal > 0) {
                 state.number = finalVal.toString();
                 numberInput.value = finalVal;
+                
+                if (state.mode === 'normas') {
+                     autoSelectYear(finalVal.toString());
+                }
+                
                 hideError();
             } else {
                 state.number = '';
@@ -552,6 +749,22 @@
                     btn.className = "type-btn w-full py-3 rounded-lg font-bold text-xs sm:text-sm border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 touch-action-manipulation";
                 }
             });
+
+            // NOVA LÓGICA DE INTERFACE PARA DECLEG (Aplica solicitação)
+            if (state.mode === 'normas') {
+                if (type === 'DecLeg') {
+                    // DecLeg precisa de ano manual
+                    sectionYear.classList.remove('hidden');
+                    autoYearBadge.classList.add('hidden');
+                } else {
+                    // Outras normas são automáticas
+                    sectionYear.classList.add('hidden');
+                    autoYearBadge.classList.remove('hidden');
+                    
+                    // Se já tiver número digitado, recalcula o ano ao voltar para Lei/Decreto
+                    if(state.number) autoSelectYear(state.number);
+                }
+            }
         }
 
         function openUrl(destination) {
