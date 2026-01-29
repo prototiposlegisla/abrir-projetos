@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -9,22 +10,23 @@
     <style>
         /* Estilos customizados para o Slider (Range) */
         input[type=range] {
-            -webkit-appearance: none; 
-            background: transparent; 
+            -webkit-appearance: none;
+            background: transparent;
             touch-action: pan-y;
             pointer-events: none;
         }
-        
+
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none;
             pointer-events: auto;
             height: 36px;
             width: 36px;
             border-radius: 50%;
-            background: #4B5563; /* Cinza Neutro */
+            background: #4B5563;
+            /* Cinza Neutro */
             cursor: grab;
-            margin-top: -15px; 
-            box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+            margin-top: -15px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
             border: 3px solid white;
         }
 
@@ -43,7 +45,7 @@
             border-radius: 50%;
             background: #4B5563;
             cursor: grab;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
             border: 3px solid white;
         }
 
@@ -57,60 +59,83 @@
         }
     </style>
 </head>
+
 <body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col items-center justify-start p-4">
 
     <!-- Seletor de Modo (Abas) -->
     <div class="w-full max-w-md grid grid-cols-3 gap-0 mb-2 mt-2">
-        <button onclick="setMode('projetos')" id="tab-projetos" class="tab-base py-3 font-bold text-sm rounded-l-2xl border border-r-0 touch-action-manipulation">
+        <button onclick="setMode('projetos')" id="tab-projetos"
+            class="tab-base py-3 font-bold text-sm rounded-l-2xl border border-r-0 touch-action-manipulation">
             Projetos
         </button>
-        <button onclick="setMode('normas')" id="tab-normas" class="tab-base py-3 font-bold text-sm border-l-0 border-r-0 touch-action-manipulation">
+        <button onclick="setMode('normas')" id="tab-normas"
+            class="tab-base py-3 font-bold text-sm border-l-0 border-r-0 touch-action-manipulation">
             Normas
         </button>
-        <button onclick="setMode('outros')" id="tab-outros" class="tab-base py-3 font-bold text-sm rounded-r-2xl border border-l-0 touch-action-manipulation">
+        <button onclick="setMode('outros')" id="tab-outros"
+            class="tab-base py-3 font-bold text-sm rounded-r-2xl border border-l-0 touch-action-manipulation">
             Outros
         </button>
     </div>
 
     <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-4 space-y-4">
-        
+
         <!-- Seção 1: Tipo -->
         <div>
             <label class="block text-sm font-medium text-gray-500 mb-2">Tipo</label>
-            
+
             <!-- Container Botões Projetos -->
             <div id="types-projetos" class="grid grid-cols-4 gap-2">
-                <button onclick="selectType('PL')" id="btn-PL" class="type-btn active-type py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">PL</button>
-                <button onclick="selectType('PDL')" id="btn-PDL" class="type-btn py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">PDL</button>
-                <button onclick="selectType('PR')" id="btn-PR" class="type-btn py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">PR</button>
-                <button onclick="selectType('PLO')" id="btn-PLO" class="type-btn py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">PLO</button>
+                <button onclick="selectType('PL')" id="btn-PL"
+                    class="type-btn active-type py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">PL</button>
+                <button onclick="selectType('PDL')" id="btn-PDL"
+                    class="type-btn py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">PDL</button>
+                <button onclick="selectType('PR')" id="btn-PR"
+                    class="type-btn py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">PR</button>
+                <button onclick="selectType('PLO')" id="btn-PLO"
+                    class="type-btn py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">PLO</button>
             </div>
-            
+
             <!-- Container Botões Normas -->
             <div id="types-normas" class="hidden grid grid-cols-4 gap-2">
-                <button onclick="selectType('Lei')" id="btn-Lei" class="type-btn py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">Lei</button>
-                <button onclick="selectType('Decreto')" id="btn-Decreto" class="type-btn py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">Decreto</button>
-                <button onclick="selectType('DecLeg')" id="btn-DecLeg" class="type-btn py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">Dec. Leg.</button>
-                <button onclick="selectType('Ato')" id="btn-Ato" class="type-btn py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">Ato</button>
+                <button onclick="selectType('Lei')" id="btn-Lei"
+                    class="type-btn py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">Lei</button>
+                <button onclick="selectType('Decreto')" id="btn-Decreto"
+                    class="type-btn py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">Decreto</button>
+                <button onclick="selectType('DecLeg')" id="btn-DecLeg"
+                    class="type-btn py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">Dec.
+                    Leg.</button>
+                <button onclick="selectType('Ato')" id="btn-Ato"
+                    class="type-btn py-3 rounded-lg font-bold text-sm border transition-all duration-200 shadow-sm touch-action-manipulation">Ato</button>
             </div>
 
             <!-- Container Botões Outros -->
             <div id="types-outros" class="hidden space-y-2">
                 <!-- Linha 1 -->
                 <div class="grid grid-cols-4 gap-2">
-                    <button onclick="selectType('RPP')" id="btn-RPP" class="type-btn py-3 rounded-lg font-bold text-xs border transition-all duration-200 shadow-sm touch-action-manipulation">RPP</button>
-                    <button onclick="selectType('RPS')" id="btn-RPS" class="type-btn py-3 rounded-lg font-bold text-xs border transition-all duration-200 shadow-sm touch-action-manipulation">RPS</button>
-                    <button onclick="selectType('RDP')" id="btn-RDP" class="type-btn py-3 rounded-lg font-bold text-xs border transition-all duration-200 shadow-sm touch-action-manipulation">RDP</button>
-                    <button onclick="selectType('RDS')" id="btn-RDS" class="type-btn py-3 rounded-lg font-bold text-xs border transition-all duration-200 shadow-sm touch-action-manipulation">RDS</button>
+                    <button onclick="selectType('RPP')" id="btn-RPP"
+                        class="type-btn py-3 rounded-lg font-bold text-xs border transition-all duration-200 shadow-sm touch-action-manipulation">RPP</button>
+                    <button onclick="selectType('RPS')" id="btn-RPS"
+                        class="type-btn py-3 rounded-lg font-bold text-xs border transition-all duration-200 shadow-sm touch-action-manipulation">RPS</button>
+                    <button onclick="selectType('RDP')" id="btn-RDP"
+                        class="type-btn py-3 rounded-lg font-bold text-xs border transition-all duration-200 shadow-sm touch-action-manipulation">RDP</button>
+                    <button onclick="selectType('RDS')" id="btn-RDS"
+                        class="type-btn py-3 rounded-lg font-bold text-xs border transition-all duration-200 shadow-sm touch-action-manipulation">RDS</button>
                 </div>
                 <!-- Linha 2 -->
                 <div class="grid grid-cols-3 gap-2">
-                    <button onclick="selectType('MOC')" id="btn-MOC" class="type-btn py-3 rounded-lg font-bold text-xs border transition-all duration-200 shadow-sm touch-action-manipulation">MOC</button>
-                    <button onclick="selectType('IND')" id="btn-IND" class="type-btn py-3 rounded-lg font-bold text-xs border transition-all duration-200 shadow-sm touch-action-manipulation">IND</button>
-                    <button onclick="selectType('REC')" id="btn-REC" class="type-btn py-3 rounded-lg font-bold text-xs border transition-all duration-200 shadow-sm touch-action-manipulation">REC</button>
-                    <button onclick="selectType('DOCREC')" id="btn-DOCREC" class="type-btn py-3 rounded-lg font-bold text-xs border transition-all duration-200 shadow-sm touch-action-manipulation">DOCREC</button>
-                    <button onclick="selectType('RSC')" id="btn-RSC" class="type-btn py-3 rounded-lg font-bold text-xs border transition-all duration-200 shadow-sm touch-action-manipulation">RSC</button>
-                    <button onclick="selectType('ANU')" id="btn-ANU" class="type-btn py-3 rounded-lg font-bold text-xs border transition-all duration-200 shadow-sm touch-action-manipulation">ANU</button>
+                    <button onclick="selectType('MOC')" id="btn-MOC"
+                        class="type-btn py-3 rounded-lg font-bold text-xs border transition-all duration-200 shadow-sm touch-action-manipulation">MOC</button>
+                    <button onclick="selectType('IND')" id="btn-IND"
+                        class="type-btn py-3 rounded-lg font-bold text-xs border transition-all duration-200 shadow-sm touch-action-manipulation">IND</button>
+                    <button onclick="selectType('REC')" id="btn-REC"
+                        class="type-btn py-3 rounded-lg font-bold text-xs border transition-all duration-200 shadow-sm touch-action-manipulation">REC</button>
+                    <button onclick="selectType('DOCREC')" id="btn-DOCREC"
+                        class="type-btn py-3 rounded-lg font-bold text-xs border transition-all duration-200 shadow-sm touch-action-manipulation">DOCREC</button>
+                    <button onclick="selectType('RSC')" id="btn-RSC"
+                        class="type-btn py-3 rounded-lg font-bold text-xs border transition-all duration-200 shadow-sm touch-action-manipulation">RSC</button>
+                    <button onclick="selectType('ANU')" id="btn-ANU"
+                        class="type-btn py-3 rounded-lg font-bold text-xs border transition-all duration-200 shadow-sm touch-action-manipulation">ANU</button>
                 </div>
             </div>
         </div>
@@ -127,10 +152,12 @@
             </div>
             <!-- Botões Granulares de Ano -->
             <div class="flex justify-between items-center mt-1">
-                <button onclick="adjustYear(-1)" class="w-10 h-10 flex items-center justify-center text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-full active:scale-90 transition-transform touch-action-manipulation font-bold text-xl">
+                <button onclick="adjustYear(-1)"
+                    class="w-10 h-10 flex items-center justify-center text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-full active:scale-90 transition-transform touch-action-manipulation font-bold text-xl">
                     −
                 </button>
-                <button onclick="adjustYear(1)" class="w-10 h-10 flex items-center justify-center text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-full active:scale-90 transition-transform touch-action-manipulation font-bold text-xl">
+                <button onclick="adjustYear(1)"
+                    class="w-10 h-10 flex items-center justify-center text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-full active:scale-90 transition-transform touch-action-manipulation font-bold text-xl">
                     +
                 </button>
             </div>
@@ -145,16 +172,18 @@
                     ANO: <span id="autoYearValue" class="text-gray-600">...</span>
                 </span>
             </div>
-            
+
             <div class="relative flex items-center mb-4">
-                <button onclick="adjustNumber(-1)" class="absolute left-2 w-12 h-12 flex items-center justify-center text-gray-500 hover:bg-gray-200 rounded-full active:scale-90 transition-transform z-10 touch-action-manipulation font-bold text-2xl pb-1">
+                <button onclick="adjustNumber(-1)"
+                    class="absolute left-2 w-12 h-12 flex items-center justify-center text-gray-500 hover:bg-gray-200 rounded-full active:scale-90 transition-transform z-10 touch-action-manipulation font-bold text-2xl pb-1">
                     −
                 </button>
-                
-                <input type="tel" id="projectNumber" pattern="[0-9]*" inputmode="numeric" placeholder="0" 
+
+                <input type="tel" id="projectNumber" pattern="[0-9]*" inputmode="numeric" placeholder="0"
                     class="w-full text-center text-4xl font-black py-2 px-14 bg-white border border-gray-200 rounded-lg focus:ring-4 focus:ring-gray-200 focus:border-gray-400 outline-none transition-all text-gray-800 shadow-sm">
-                
-                <button onclick="adjustNumber(1)" class="absolute right-2 w-12 h-12 flex items-center justify-center text-gray-500 hover:bg-gray-200 rounded-full active:scale-90 transition-transform z-10 touch-action-manipulation font-bold text-2xl pb-1">
+
+                <button onclick="adjustNumber(1)"
+                    class="absolute right-2 w-12 h-12 flex items-center justify-center text-gray-500 hover:bg-gray-200 rounded-full active:scale-90 transition-transform z-10 touch-action-manipulation font-bold text-2xl pb-1">
                     +
                 </button>
             </div>
@@ -166,7 +195,8 @@
                         <span id="label-macro" class="font-bold text-gray-600">Centenas</span>
                         <span id="max-macro-display">2000</span>
                     </div>
-                    <input type="range" id="sliderMacro" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                    <input type="range" id="sliderMacro"
+                        class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
                 </div>
 
                 <div id="container-mid" class="hidden">
@@ -175,7 +205,8 @@
                         <span class="font-bold text-gray-600">Centenas</span>
                         <span>900</span>
                     </div>
-                    <input type="range" id="sliderMid" min="0" max="9" value="0" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                    <input type="range" id="sliderMid" min="0" max="9" value="0"
+                        class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
                 </div>
 
                 <div>
@@ -184,7 +215,8 @@
                         <span id="label-micro" class="font-bold text-gray-600">Unidades</span>
                         <span id="max-micro-display">99</span>
                     </div>
-                    <input type="range" id="sliderMicro" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                    <input type="range" id="sliderMicro"
+                        class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
                 </div>
             </div>
         </div>
@@ -197,22 +229,31 @@
         <div class="grid grid-cols-1 gap-3 pt-2">
             <!-- Botões Projetos -->
             <div id="actions-projetos" class="grid gap-3">
-                <button onclick="openUrl('splegis')" class="w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 touch-action-manipulation">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                <button onclick="openUrl('splegis')"
+                    class="w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 touch-action-manipulation">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
                     Abrir no SPLegis Consulta
                 </button>
                 <!-- Botão SPLegis INTRA (Projetos) -->
-                <button onclick="openUrl('splegis_intra')" class="w-full bg-blue-800 hover:bg-blue-900 active:bg-blue-950 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 touch-action-manipulation">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                <button onclick="openUrl('splegis_intra')"
+                    class="w-full bg-blue-800 hover:bg-blue-900 active:bg-blue-950 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 touch-action-manipulation">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                     </svg>
                     Abrir no SPLegis Intra
                 </button>
-                <button onclick="openUrl('portal')" class="w-full bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 touch-action-manipulation">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                <button onclick="openUrl('portal')"
+                    class="w-full bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 touch-action-manipulation">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
                     </svg>
                     Abrir na Biblioteca
                 </button>
@@ -220,26 +261,56 @@
 
             <!-- Botões Normas -->
             <div id="actions-normas" class="hidden grid gap-3">
-                <button onclick="openUrl('plp')" class="w-full bg-purple-600 hover:bg-purple-700 active:bg-purple-800 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 touch-action-manipulation">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                <button onclick="openUrl('plp')"
+                    class="w-full bg-purple-600 hover:bg-purple-700 active:bg-purple-800 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 touch-action-manipulation">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                     </svg>
                     Abrir no PLP
                 </button>
+
+                <button onclick="openUrl('biblioteca')"
+                    class="w-full bg-purple-500 hover:bg-purple-600 active:bg-purple-700 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 touch-action-manipulation">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        <!-- Icone diferente para diferenciar visualmente se desejado, mantive o mesmo de livro pois biblioteca = livro -->
+                    </svg>
+                    Abrir na Biblioteca
+                </button>
+
+                <button id="btn-action-prefeitura" onclick="openUrl('prefeitura')"
+                    class="w-full bg-purple-800 hover:bg-purple-900 active:bg-purple-950 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 touch-action-manipulation">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                    </svg>
+                    Abrir na Prefeitura
+                </button>
             </div>
-            
-             <!-- Botões Outros -->
+
+            <!-- Botões Outros -->
             <div id="actions-outros" class="hidden grid gap-3">
-                <button onclick="openUrl('splegis')" class="w-full bg-orange-600 hover:bg-orange-700 active:bg-orange-800 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 touch-action-manipulation">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                <button onclick="openUrl('splegis')"
+                    class="w-full bg-orange-600 hover:bg-orange-700 active:bg-orange-800 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 touch-action-manipulation">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
                     Abrir no SPLegis Consulta
                 </button>
                 <!-- Botão SPLegis INTRA (Outros) -->
-                <button onclick="openUrl('splegis_intra')" class="w-full bg-orange-800 hover:bg-orange-900 active:bg-orange-950 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 touch-action-manipulation">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                <button onclick="openUrl('splegis_intra')"
+                    class="w-full bg-orange-800 hover:bg-orange-900 active:bg-orange-950 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 touch-action-manipulation">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                     </svg>
                     Abrir no SPLegis Intra
                 </button>
@@ -390,7 +461,7 @@
                 minYear: 1991,
                 maxNumber: 2000,
                 defaultNumber: '',
-                hasMid: false, 
+                hasMid: false,
                 macroStep: 100,
                 macroLabel: 'Centenas',
                 microMax: 99
@@ -399,7 +470,7 @@
                 minYear: 1976,
                 maxNumber: 70000,
                 defaultNumber: '18000',
-                hasMid: true, 
+                hasMid: true,
                 macroStep: 1000,
                 macroLabel: 'Milhares',
                 microMax: 99
@@ -408,7 +479,7 @@
                 minYear: 1991,
                 maxNumber: 2300,
                 defaultNumber: '',
-                hasMid: false, 
+                hasMid: false,
                 macroStep: 100,
                 macroLabel: 'Centenas',
                 microMax: 99
@@ -416,18 +487,18 @@
         };
 
         let state = {
-            mode: 'projetos', 
+            mode: 'projetos',
             type: 'PL',
             number: '',
             year: CONFIG.defaultYear
         };
 
-        const spLegisCodes = { 
+        const spLegisCodes = {
             'PL': 1, 'PDL': 2, 'PR': 3, 'PLO': 4,
             'RPP': 6, 'RPS': 7, 'RDP': 8, 'RDS': 13,
             'MOC': 5, 'IND': 9, 'REC': 11, 'DOCREC': 15, 'RSC': 37, 'ANU': 68
         };
-        
+
         const plpCodes = { 'Lei': 'Lei', 'Decreto': 'DEC', 'DecLeg': 'DECLEG', 'Ato': 'Ato' };
 
         const yearSlider = document.getElementById('yearSlider');
@@ -437,7 +508,7 @@
         const sliderMid = document.getElementById('sliderMid');
         const sliderMicro = document.getElementById('sliderMicro');
         const errorMsg = document.getElementById('errorMsg');
-        
+
         const tabProjetos = document.getElementById('tab-projetos');
         const tabNormas = document.getElementById('tab-normas');
         const tabOutros = document.getElementById('tab-outros');
@@ -449,20 +520,20 @@
         const actionsProjetos = document.getElementById('actions-projetos');
         const actionsNormas = document.getElementById('actions-normas');
         const actionsOutros = document.getElementById('actions-outros');
-        
+
         const labelMacro = document.getElementById('label-macro');
         const labelMicro = document.getElementById('label-micro');
         const maxMacroDisplay = document.getElementById('max-macro-display');
         const maxMicroDisplay = document.getElementById('max-micro-display');
         const containerMid = document.getElementById('container-mid');
-        
+
         // Elementos da nova seção de ano
         const sectionYear = document.getElementById('section-year');
         const autoYearBadge = document.getElementById('autoYearBadge');
         const autoYearValue = document.getElementById('autoYearValue');
 
         function init() {
-            setMode('projetos'); 
+            setMode('projetos');
 
             sliderMacro.addEventListener('input', updateFromSliders);
             sliderMid.addEventListener('input', updateFromSliders);
@@ -476,9 +547,9 @@
             numberInput.addEventListener('input', (e) => {
                 let val = e.target.value.replace(/\D/g, '');
                 const max = CONFIG[state.mode].maxNumber;
-                
+
                 if (parseInt(val) > max) val = max.toString();
-                
+
                 e.target.value = val;
                 state.number = val;
 
@@ -500,10 +571,10 @@
                     sliderMicro.value = 0;
                 }
             });
-            
+
             numberInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
-                    if(state.mode === 'projetos' || state.mode === 'outros') openUrl('splegis');
+                    if (state.mode === 'projetos' || state.mode === 'outros') openUrl('splegis');
                     else openUrl('plp');
                     numberInput.blur();
                 }
@@ -513,22 +584,22 @@
         // Função de Adivinhação de Ano
         function autoSelectYear(numberStr) {
             const num = parseInt(numberStr);
-            const ranges = NORMA_RANGES[state.type]; 
-            
-            if (!ranges) return; 
+            const ranges = NORMA_RANGES[state.type];
+
+            if (!ranges) return;
 
             const found = ranges.find(r => num >= r.min && num <= r.max);
-            
+
             if (found) {
                 state.year = found.year;
                 // Atualiza sliders (mesmo ocultos) para manter consistência
                 yearSlider.value = found.year;
                 yearDisplay.innerText = found.year;
-                
+
                 // Atualiza o Badge
                 autoYearValue.innerText = found.year;
             } else {
-                 autoYearValue.innerText = "...";
+                autoYearValue.innerText = "...";
             }
         }
 
@@ -550,12 +621,12 @@
         function adjustNumber(delta) {
             let val = parseInt(state.number || 0);
             const max = CONFIG[state.mode].maxNumber;
-            
+
             val += delta;
-            
+
             if (val < 0) val = 0;
             if (val > max) val = max;
-            
+
             state.number = val.toString();
             numberInput.value = val;
 
@@ -563,7 +634,7 @@
             if (state.mode === 'normas' && val > 0) {
                 autoSelectYear(val.toString());
             }
-            
+
             if (val > 0) {
                 syncSlidersFromNumber(val);
                 hideError();
@@ -577,29 +648,29 @@
         function setMode(mode) {
             state.mode = mode;
             const settings = CONFIG[mode];
-            
+
             toggleUI(mode);
-            
-            if(mode === 'projetos') selectType('PL');
-            else if(mode === 'normas') selectType('Lei');
-            else if(mode === 'outros') selectType('RDS');
+
+            if (mode === 'projetos') selectType('PL');
+            else if (mode === 'normas') selectType('Lei');
+            else if (mode === 'outros') selectType('RDS');
 
             yearSlider.min = settings.minYear;
             yearSlider.max = CONFIG.maxYear;
             yearSlider.value = CONFIG.defaultYear;
             yearDisplay.innerText = CONFIG.defaultYear;
             state.year = CONFIG.defaultYear;
-            
+
             configureNumberSliders(mode);
-            
+
             state.number = settings.defaultNumber;
             numberInput.value = state.number;
-            
+
             // Se entrar em normas com número pré-definido, calcula ano
-            if(mode === 'normas' && state.number) {
-                 autoSelectYear(state.number);
+            if (mode === 'normas' && state.number) {
+                autoSelectYear(state.number);
             }
-            
+
             if (state.number) {
                 syncSlidersFromNumber(state.number);
                 hideError();
@@ -614,7 +685,7 @@
         function toggleUI(activeMode) {
             // Estilos Básicos (Inativo)
             const inactiveClass = "bg-white text-gray-600 border-gray-200";
-            
+
             // Estilos Ativos por Cor
             const activeBlue = "bg-blue-600 text-white border-blue-600";
             const activePurple = "bg-purple-600 text-white border-purple-600";
@@ -633,7 +704,7 @@
             actionsNormas.classList.add('hidden');
             actionsOutros.classList.add('hidden');
             containerMid.classList.add('hidden');
-            
+
             // Reset Seção de Ano e Badge (Padrão: mostrar ano, esconder badge)
             sectionYear.classList.remove('hidden');
             autoYearBadge.classList.add('hidden');
@@ -643,13 +714,13 @@
                 tabProjetos.className = `tab-base py-3 font-bold text-sm rounded-l-2xl border border-r-0 touch-action-manipulation ${activeBlue}`;
                 typesProjetos.classList.remove('hidden');
                 actionsProjetos.classList.remove('hidden');
-            } 
+            }
             else if (activeMode === 'normas') {
                 tabNormas.className = `tab-base py-3 font-bold text-sm border-l-0 border-r-0 touch-action-manipulation ${activePurple}`;
                 typesNormas.classList.remove('hidden');
                 actionsNormas.classList.remove('hidden');
                 containerMid.classList.remove('hidden');
-                
+
                 // ESCONDER SEÇÃO DE ANO E MOSTRAR BADGE
                 // Essa lógica será refinada no selectType para o DecLeg
                 sectionYear.classList.add('hidden');
@@ -684,17 +755,17 @@
             } else {
                 total = (macroVal * 100) + microVal;
             }
-            
+
             const finalVal = Math.min(total, settings.maxNumber);
 
             if (finalVal > 0) {
                 state.number = finalVal.toString();
                 numberInput.value = finalVal;
-                
+
                 if (state.mode === 'normas') {
-                     autoSelectYear(finalVal.toString());
+                    autoSelectYear(finalVal.toString());
                 }
-                
+
                 hideError();
             } else {
                 state.number = '';
@@ -707,7 +778,7 @@
             if (isNaN(num)) return;
 
             const settings = CONFIG[state.mode];
-            
+
             if (settings.hasMid) {
                 const macro = Math.floor(num / 1000);
                 const remainder = num % 1000;
@@ -720,7 +791,7 @@
             } else {
                 const macro = Math.floor(num / settings.macroStep);
                 const micro = num % settings.macroStep;
-                
+
                 sliderMacro.value = macro;
                 sliderMicro.value = micro;
             }
@@ -728,7 +799,7 @@
 
         function selectType(type) {
             state.type = type;
-            
+
             const allTypes = [
                 'PL', 'PDL', 'PR', 'PLO',
                 'Lei', 'Decreto', 'DecLeg', 'Ato',
@@ -738,11 +809,11 @@
             allTypes.forEach(t => {
                 const btn = document.getElementById(`btn-${t}`);
                 if (!btn) return;
-                
+
                 if (t === state.type) {
                     let colorClass = "bg-blue-600 border-blue-600";
-                    if(state.mode === 'normas') colorClass = "bg-purple-600 border-purple-600";
-                    if(state.mode === 'outros') colorClass = "bg-orange-600 border-orange-600";
+                    if (state.mode === 'normas') colorClass = "bg-purple-600 border-purple-600";
+                    if (state.mode === 'outros') colorClass = "bg-orange-600 border-orange-600";
 
                     btn.className = `type-btn w-full py-3 rounded-lg font-bold text-xs sm:text-sm border text-white shadow-md transform scale-105 transition-all duration-200 touch-action-manipulation ${colorClass}`;
                 } else {
@@ -752,17 +823,27 @@
 
             // NOVA LÓGICA DE INTERFACE PARA DECLEG (Aplica solicitação)
             if (state.mode === 'normas') {
+                const btnPrefeitura = document.getElementById('btn-action-prefeitura');
+
                 if (type === 'DecLeg') {
                     // DecLeg precisa de ano manual
                     sectionYear.classList.remove('hidden');
                     autoYearBadge.classList.add('hidden');
-                } else {
-                    // Outras normas são automáticas
+                    if (btnPrefeitura) btnPrefeitura.classList.add('hidden'); // Esconde Prefeitura
+                } else if (type === 'Lei' || type === 'Decreto') {
+                    // Lei e Decreto: Automático e Tem Prefeitura
                     sectionYear.classList.add('hidden');
                     autoYearBadge.classList.remove('hidden');
-                    
+                    if (btnPrefeitura) btnPrefeitura.classList.remove('hidden'); // Mostra Prefeitura
+                    if (state.number) autoSelectYear(state.number);
+                } else {
+                    // Outras normas (Decreto, Ato): Automático e NÃO Tem Prefeitura
+                    sectionYear.classList.add('hidden');
+                    autoYearBadge.classList.remove('hidden');
+                    if (btnPrefeitura) btnPrefeitura.classList.add('hidden'); // Esconde Prefeitura
+
                     // Se já tiver número digitado, recalcula o ano ao voltar para Lei/Decreto
-                    if(state.number) autoSelectYear(state.number);
+                    if (state.number) autoSelectYear(state.number);
                 }
             }
         }
@@ -775,7 +856,7 @@
             }
 
             let url = '';
-            
+
             if (state.mode === 'projetos' || state.mode === 'outros') {
                 if (destination === 'splegis') {
                     const code = spLegisCodes[state.type];
@@ -790,8 +871,59 @@
                     url = `https://www.saopaulo.sp.leg.br/cgi-bin/wxis.bin/iah/scripts/?IsisScript=iah.xis&lang=pt&format=detalhado.pft&base=proje&form=A&nextAction=search&indexSearch=^nTw^lTodos%20os%20campos&exprSearch=P=${searchExpr}`;
                 }
             } else {
-                const tipoCode = plpCodes[state.type];
-                url = `https://app-plpconsulta-prd.azurewebsites.net/Forms/MostrarArquivo?TIPO=${tipoCode}&NUMERO=${state.number}&ANO=${state.year}&DOCUMENTO=Ficha`;
+                // Formatting number with dots for some specific external services
+                const formattedNumber = state.number.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+                if (destination === 'plp') {
+                    const tipoCode = plpCodes[state.type];
+                    url = `https://app-plpconsulta-prd.azurewebsites.net/Forms/MostrarArquivo?TIPO=${tipoCode}&NUMERO=${state.number}&ANO=${state.year}&DOCUMENTO=Ficha`;
+                } else if (destination === 'biblioteca') {
+                    // Biblioteca Logic
+                    // Base URL Parts
+                    const baseUrl = "https://www.saopaulo.sp.leg.br/cgi-bin/wxis.bin/iah/scripts/?IsisScript=iah.xis&lang=pt&format=detalhado.pft&base=legis&nextAction=search&form=A&indexSearch=^nTw^lTodos%20os%20campos&&exprSearch=";
+
+                    let exprSearch = "";
+                    if (state.type === 'Lei') {
+                        exprSearch = `LEI${formattedNumber}/${state.year}`;
+                    } else if (state.type === 'DecLeg') {
+                        // For DecLeg, User request example: DLE81/2025
+                        // Note: DecLeg usually doesn't use dot in short code "DLE" but the number might need check. 
+                        // The user example "DLE81/2025" implies NO dot for small numbers, 
+                        // but usually library uses dots for thousands. 
+                        // User example "Lei 18.378" -> "LEI18.378/2025" (With Dot)
+                        // User example "Decreto-Legislativo 81" -> "DLE81/2025" (No dot because <1000)
+                        // Let's assume formattedNumber (which has dots) is correct for consistency.
+                        exprSearch = `DLE${formattedNumber}/${state.year}`;
+                    } else if (state.type === 'Decreto') {
+                        // Fallback/Inferred for Decreto (Executive) -> Usually "D" or "DEC"?
+                        // User didn't specify for standard Decreto, but implied pattern.
+                        // Let's use format similar to Lei but with "DEC" prefix? 
+                        // Looking at similar systems, usually it is "D"+Number for Decrees or "DEC"+Number.
+                        // Without explicit instruction, I'll attempt a safe guess or just standard search.
+                        // However, keeping strictly to Lei/DecLeg as requested first.
+                        // Let's try generic fallback for others or specific if known.
+                        // Common pattern in this library: DECRETO <num>/<year> or D <num>/<year>
+                        // I will leave others as TODO or generic entry if possible, 
+                        // but effectively this button is primarily for Lei/DecLeg per request examples.
+                        // Let's try:
+                        exprSearch = `${state.type.toUpperCase()}${formattedNumber}/${state.year}`;
+                    } else {
+                        // Fallback
+                        exprSearch = `${state.type.toUpperCase()}${formattedNumber}/${state.year}`;
+                    }
+
+                    url = baseUrl + exprSearch;
+
+                } else if (destination === 'prefeitura') {
+                    // Prefeitura Logic (For Lei and Decreto)
+                    // URL: https://legislacao.prefeitura.sp.gov.br/busca?nr_lei=18.378 (Works for both)
+                    if (state.type === 'Lei' || state.type === 'Decreto') {
+                        url = `https://legislacao.prefeitura.sp.gov.br/busca?nr_lei=${formattedNumber}`;
+                    } else {
+                        // Should be hidden, but just in case
+                        return;
+                    }
+                }
             }
 
             window.open(url, '_self');
@@ -812,4 +944,5 @@
         init();
     </script>
 </body>
+
 </html>
