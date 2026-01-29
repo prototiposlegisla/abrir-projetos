@@ -228,91 +228,50 @@
         <!-- Seção 4: Botões de Ação -->
         <div class="grid grid-cols-1 gap-3 pt-2">
             <!-- Botões Projetos -->
-            <div id="actions-projetos" class="grid gap-3">
+            <div id="actions-projetos" class="grid grid-cols-3 gap-3">
                 <button onclick="openUrl('splegis')"
                     class="w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 touch-action-manipulation">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    Abrir no SPLegis Consulta
+                    SPLegis Consulta
                 </button>
                 <!-- Botão SPLegis INTRA (Projetos) -->
                 <button onclick="openUrl('splegis_intra')"
                     class="w-full bg-blue-800 hover:bg-blue-900 active:bg-blue-950 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 touch-action-manipulation">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                    </svg>
-                    Abrir no SPLegis Intra
+                    SPLegis Intra
                 </button>
                 <button onclick="openUrl('portal')"
                     class="w-full bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 touch-action-manipulation">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-                    </svg>
-                    Abrir na Biblioteca
+                    Biblioteca
                 </button>
             </div>
 
             <!-- Botões Normas -->
-            <div id="actions-normas" class="hidden grid gap-3">
+            <div id="actions-normas" class="hidden grid grid-cols-3 gap-3">
                 <button onclick="openUrl('plp')"
                     class="w-full bg-purple-600 hover:bg-purple-700 active:bg-purple-800 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 touch-action-manipulation">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                    </svg>
-                    Abrir no PLP
+                    PLP
                 </button>
 
                 <button onclick="openUrl('biblioteca')"
                     class="w-full bg-purple-500 hover:bg-purple-600 active:bg-purple-700 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 touch-action-manipulation">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                        <!-- Icone diferente para diferenciar visualmente se desejado, mantive o mesmo de livro pois biblioteca = livro -->
-                    </svg>
-                    Abrir na Biblioteca
+                    Biblioteca
                 </button>
 
                 <button id="btn-action-prefeitura" onclick="openUrl('prefeitura')"
                     class="w-full bg-purple-800 hover:bg-purple-900 active:bg-purple-950 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 touch-action-manipulation">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                    </svg>
-                    Abrir na Prefeitura
+                    Prefeitura
                 </button>
             </div>
 
             <!-- Botões Outros -->
-            <div id="actions-outros" class="hidden grid gap-3">
+            <div id="actions-outros" class="hidden grid grid-cols-2 gap-3">
                 <button onclick="openUrl('splegis')"
                     class="w-full bg-orange-600 hover:bg-orange-700 active:bg-orange-800 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 touch-action-manipulation">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    Abrir no SPLegis Consulta
+                    SPLegis Consulta
                 </button>
                 <!-- Botão SPLegis INTRA (Outros) -->
                 <button onclick="openUrl('splegis_intra')"
                     class="w-full bg-orange-800 hover:bg-orange-900 active:bg-orange-950 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 touch-action-manipulation">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                    </svg>
-                    Abrir no SPLegis Intra
+                    SPLegis Intra
                 </button>
             </div>
         </div>
